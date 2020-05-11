@@ -16,7 +16,7 @@ class _HanwhaState extends State<Hanwha> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset("assets/hanwha.mp4")
+    _controller = VideoPlayerController.asset("assets/video/hanwha.mp4")
       ..addListener(() {
         if (_isPlaying && !_controller.value.isPlaying && _isHanwhaPlay) {
           setState(() {
@@ -36,17 +36,17 @@ class _HanwhaState extends State<Hanwha> {
           child: InkWell(
             child: _isHanwhaHover
                 ? ColorFiltered(
-                    colorFilter:
-                        ColorFilter.mode(Colors.grey[400], BlendMode.modulate),
-                    child: Image.asset(
-                      "assets/kimsungkeun.webp",
-                      width: 80,
-                    ),
-                  )
+              colorFilter:
+              ColorFilter.mode(Colors.grey[400], BlendMode.modulate),
+              child: Image.asset(
+                "assets/kimsungkeun.webp",
+                width: 80,
+              ),
+            )
                 : Image.asset(
-                    "assets/kimsungkeun.webp",
-                    width: 80,
-                  ),
+              "assets/kimsungkeun.webp",
+              width: 80,
+            ),
             onTap: () {
               if (!_isHanwhaPlay) {
                 setState(() {
@@ -55,7 +55,10 @@ class _HanwhaState extends State<Hanwha> {
                   _controller.initialize().then((_) => _controller.play());
                 });
               } else {
-                setState(() => _isHanwhaHover = false);
+                setState(() {
+                  _isHanwhaHover = false;
+                  _controller.pause();
+                });
               }
             },
             onTapDown: (_) => setState(() => _isHanwhaHover = true),
@@ -66,12 +69,12 @@ class _HanwhaState extends State<Hanwha> {
           alignment: Alignment(0.5, -0.6),
           child: _isHanwhaPlay
               ? Container(
-                  height: 100,
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  ),
-                )
+            height: 100,
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: VideoPlayer(_controller),
+            ),
+          )
               : Container(),
         )
       ],

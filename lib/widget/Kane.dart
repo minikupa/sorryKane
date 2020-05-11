@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Kane extends StatefulWidget {
   @override
@@ -17,14 +18,16 @@ class _KaneState extends State<Kane> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return Stack(
       children: <Widget>[
         Align(
           alignment: Alignment.bottomCenter,
           child: InkWell(
             child: Image.asset(
-              "assets/kane$_imageCount.webp",
-              height: 400,
+              "assets/kane/kane$_imageCount.webp",
+              height: ScreenUtil().setHeight(1000),
+              fit: BoxFit.cover,
               gaplessPlayback: true,
             ),
             onTap: () async {
@@ -44,33 +47,40 @@ class _KaneState extends State<Kane> {
           ),
         ),
         _imageCount == 1
-            ? Align(
-                alignment: Alignment(0.020, 0.134),
+            ? Positioned(
+                top: ScreenUtil().setHeight(1065),
+                left: ScreenUtil().setWidth(506),
+                right: ScreenUtil().setWidth(506),
                 child: InkWell(
                   child: _isHover
                       ? ColorFiltered(
                           colorFilter: ColorFilter.mode(
                               Colors.grey[400], BlendMode.modulate),
                           child: Image.asset(
-                            "assets/nose.webp",
-                            width: 27,
+                            "assets/kane/nose.webp",
+                            width: ScreenUtil().setHeight(50),
+                            height: ScreenUtil().setHeight(50),
+                            fit: BoxFit.contain,
                           ))
                       : Image.asset(
-                          "assets/nose.webp",
-                          width: 27,
+                          "assets/kane/nose.webp",
+                          width: ScreenUtil().setHeight(50),
+                          height: ScreenUtil().setHeight(50),
+                          fit: BoxFit.contain,
                         ),
                   onTap: () {
                     setState(() => _isHover = false);
                     if (++_noseCount >= Random().nextInt(5) + 3) {
                       _noseCount = 0;
-                      player.play('igonan.m4a');
+                      player.play('music/igonan.m4a');
                     } else {
-                      player.play('bbolong.m4a');
+                      player.play('music/bbolong.m4a');
                     }
                   },
                   onTapDown: (_) => setState(() => _isHover = true),
                   onTapCancel: () => setState(() => _isHover = false),
-                ))
+                ),
+              )
             : Container()
       ],
     );
