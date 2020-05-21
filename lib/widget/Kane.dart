@@ -32,6 +32,7 @@ class _KaneState extends State<Kane> {
             ),
             onTap: () async {
               if (_imageCount == 1) {
+                player.play('music/sorry.mp3');
                 for (var i = 1; i <= 7; i++) {
                   await Future.delayed(const Duration(milliseconds: 50), () {
                     setState(() => _imageCount++);
