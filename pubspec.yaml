@@ -47,6 +47,7 @@ flutter:
   assets:
     - assets/
     - assets/kane/
+    - assets/kane/ricardo/
     - assets/music/
     - assets/video/
   #  - images/a_dot_burr.jpeg
