@@ -13,7 +13,7 @@ class _BottomBarState extends State<BottomBar> {
   List<String> _imgList = ["kane/kane1", "tajiri", "pear"];
   List<String> _titleList = ["인물", "배치", "아이템"];
 
-  List<String> _personImgList = ["kane/kane1", "/kane/ricardo/ricardo000"];
+  List<String> _personImgList = ["kane/kane1", "kane/ricardo/ricardo000"];
   List<String> _personTitleList = ["죄송케인", "케카르도"];
 
   bool _isPerson = false;
