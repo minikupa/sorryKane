@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Model/KaneType.dart';
 import 'widget/BottomBar.dart';
 import 'widget/Hanwha.dart';
 import 'widget/Tajiri.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  bool _isRicardo = false;
+  KaneType _kaneType = KaneType.Kane;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 height: double.infinity,
                 fit: BoxFit.cover,
               )),
-              Kane(_isRicardo),
+              Kane(_kaneType),
               Hanwha(),
               Tajiri(),
               Align(
@@ -85,10 +86,8 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  _changeKane(bool isRicardo) {
-    setState(() {
-      _isRicardo = isRicardo;
-    });
+  _changeKane(KaneType kaneType) {
+    setState(() => _kaneType = kaneType);
   }
 
   _launchURL(String url) async {
