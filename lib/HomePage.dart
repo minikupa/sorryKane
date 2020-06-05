@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Model/KaneType.dart';
+import 'Model/LocationType.dart';
 import 'widget/BottomBar.dart';
 import 'widget/Hanwha.dart';
 import 'widget/Tajiri.dart';
@@ -20,8 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  KaneType _kaneType = KaneType.Kane;
+  GlobalKey<KaneState> _kaneKey = GlobalKey<KaneState>();
+  GlobalKey<TajiriState> _tajiriKey = GlobalKey<TajiriState>();
+  GlobalKey<HanwhaState> _hanwhaKey = GlobalKey<HanwhaState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +42,15 @@ class _HomePageState extends State<HomePage> {
                 height: double.infinity,
                 fit: BoxFit.cover,
               )),
-              Kane(_kaneType),
-              Hanwha(),
-              Tajiri(),
+              Kane(
+                key: _kaneKey,
+              ),
+              Hanwha(
+                key: _hanwhaKey,
+              ),
+              Tajiri(
+                key: _tajiriKey,
+              ),
               Align(
                 alignment: Alignment(-1.0, 1.0),
                 child: Image.asset(
@@ -80,14 +88,25 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(
-          child: BottomBar(_changeKane),
+          child: BottomBar(_changeKane, _onOffLocation),
         )
       ],
     ));
   }
 
   _changeKane(KaneType kaneType) {
-    setState(() => _kaneType = kaneType);
+    _kaneKey.currentState.changeKane(kaneType);
+  }
+
+  _onOffLocation(LocationType locationType) {
+    switch (locationType) {
+      case LocationType.Tajiri:
+        _tajiriKey.currentState.onOffLocation();
+        break;
+      case LocationType.Kimsungkeun:
+        _hanwhaKey.currentState.onOffLocation();
+        break;
+    }
   }
 
   _launchURL(String url) async {

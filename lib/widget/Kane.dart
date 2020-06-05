@@ -7,19 +7,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kane/Model/KaneType.dart';
 
 class Kane extends StatefulWidget {
-  final KaneType _kaneType;
 
-  Kane(this._kaneType);
+  Kane({Key key}) : super(key : key);
 
   @override
-  _KaneState createState() => _KaneState();
+  KaneState createState() => KaneState();
 }
 
-class _KaneState extends State<Kane> {
+class KaneState extends State<Kane> {
   int _imageCount = 1;
   int _noseCount = 0;
   bool _isHover = false;
   bool _isStop = false;
+  KaneType _kaneType = KaneType.Kane;
 
   AudioCache _cache = AudioCache();
   AudioPlayer _player;
@@ -27,13 +27,15 @@ class _KaneState extends State<Kane> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-    switch (widget._kaneType) {
+    switch (_kaneType) {
       case KaneType.Kane:
         return _sorryKane();
       case KaneType.Ricardo:
         return _ricardo();
-      default:
+      case KaneType.SexyKane:
         return _sexyKane();
+      default:
+        return _hanwhaKane();
     }
   }
 
@@ -51,26 +53,24 @@ class _KaneState extends State<Kane> {
             ),
             onTap: () async {
               if (_imageCount == 1) {
-                _player = await _cache.play('music/sorry.mp3');
-                for (var i = 1; i <= 7; i++) {
-                  if (widget._kaneType != KaneType.Kane) {
-                    _player.stop();
-                    setState(() => _imageCount = 1);
-                    break;
+                _player = await _cache.play('music/sorry.mp3', volume: 3.0);
+                for (int i = 0; i < 2; i++) {
+                  for (int j = 1; j <= 7; j++) {
+                    if (_kaneType != KaneType.Kane) {
+                      _player.stop();
+                      setState(() => _imageCount = 1);
+                      break;
+                    }
+                    await Future.delayed(const Duration(milliseconds: 50), () {
+                      setState(() {
+                        if (i == 0) {
+                          _imageCount++;
+                        } else {
+                          _imageCount--;
+                        }
+                      });
+                    });
                   }
-                  await Future.delayed(const Duration(milliseconds: 50), () {
-                    setState(() => _imageCount++);
-                  });
-                }
-                for (var i = 1; i <= 7; i++) {
-                  if (widget._kaneType != KaneType.Kane) {
-                    _player.stop();
-                    setState(() => _imageCount = 1);
-                    break;
-                  }
-                  await Future.delayed(const Duration(milliseconds: 50), () {
-                    setState(() => _imageCount--);
-                  });
                 }
               }
             },
@@ -132,7 +132,7 @@ class _KaneState extends State<Kane> {
               if (_imageCount == 1) {
                 _player = await _cache.play('music/ricardo.mp3');
                 for (int i = 0; i <= 211; i++) {
-                  if (widget._kaneType != KaneType.Ricardo || _isStop) {
+                  if (_kaneType != KaneType.Ricardo || _isStop) {
                     _player.stop();
                     _isStop = false;
                     break;
@@ -168,25 +168,23 @@ class _KaneState extends State<Kane> {
             onTap: () async {
               if (_imageCount == 1) {
                 _player = await _cache.play('music/sexyKane.mp3');
-                for (var i = 0; i <= 7; i++) {
-                  if (widget._kaneType != KaneType.SexyKane || _isStop) {
-                    _isStop = false;
-                    _player.stop();
-                    break;
+                for (int i = 0; i < 2; i++) {
+                  for (int j = 1; j <= 7; j++) {
+                    if (_kaneType != KaneType.SexyKane) {
+                      setState(() => _imageCount = 1);
+                      _player.stop();
+                      break;
+                    }
+                    await Future.delayed(const Duration(milliseconds: 66), () {
+                      setState(() {
+                        if (i == 0) {
+                          _imageCount++;
+                        } else {
+                          _imageCount--;
+                        }
+                      });
+                    });
                   }
-                  await Future.delayed(const Duration(milliseconds: 66), () {
-                    setState(() => _imageCount++);
-                  });
-                }
-                for (var i = 0; i <= 7; i++) {
-                  if (widget._kaneType != KaneType.SexyKane || _isStop) {
-                    _isStop = false;
-                    _player.stop();
-                    break;
-                  }
-                  await Future.delayed(const Duration(milliseconds: 66), () {
-                    setState(() => _imageCount--);
-                  });
                 }
               }
             },
@@ -195,4 +193,42 @@ class _KaneState extends State<Kane> {
       ],
     );
   }
+
+  Widget _hanwhaKane() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: InkWell(
+            child: Image.asset(
+              "assets/kane/hanwha/hanwha${_imageCount > 10 ? _imageCount - 1 : "0${_imageCount - 1}"}.webp",
+              height: ScreenUtil().setHeight(800),
+              fit: BoxFit.cover,
+              gaplessPlayback: true,
+            ),
+            onTap: () async {
+              if (_imageCount == 1) {
+                _player = await _cache.play('music/hanwha.mp3');
+                for (int j = 1; j <= 61; j++) {
+                  if (_kaneType != KaneType.HanwhaKane) {
+                    _player.stop();
+                    break;
+                  }
+                  await Future.delayed(const Duration(milliseconds: 125), () {
+                    setState(() => _imageCount++);
+                  });
+                }
+                setState(() => _imageCount = 1);
+              }
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  changeKane(KaneType kaneType) {
+    setState(() => _kaneType = kaneType);
+  }
+
 }

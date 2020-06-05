@@ -1,5 +1,6 @@
 enum KaneType {
   Kane,
   Ricardo,
-  SexyKane
+  SexyKane,
+  HanwhaKane
 }

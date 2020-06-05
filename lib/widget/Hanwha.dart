@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class Hanwha extends StatefulWidget {
+
+  Hanwha({Key key}) : super(key: key);
+
   @override
-  _HanwhaState createState() => _HanwhaState();
+  HanwhaState createState() => HanwhaState();
 }
 
-class _HanwhaState extends State<Hanwha> {
+class HanwhaState extends State<Hanwha> {
   bool _isHanwhaHover = false;
   bool _isHanwhaPlay = false;
   bool _isPlaying = false;
+  bool _isOn = true;
 
   VideoPlayerController _controller;
 
@@ -29,7 +33,7 @@ class _HanwhaState extends State<Hanwha> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return _isOn ? Stack(
       children: <Widget>[
         Align(
           alignment: Alignment(0.95, -0.4),
@@ -78,6 +82,16 @@ class _HanwhaState extends State<Hanwha> {
               : Container(),
         )
       ],
-    );
+    ) : Container();
   }
+
+  onOffLocation() {
+    setState(() {
+      _isOn = !_isOn;
+      if(!_isOn){
+        _controller.pause();
+      }
+    });
+  }
+
 }
