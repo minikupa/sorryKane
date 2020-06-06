@@ -78,7 +78,7 @@ class KaneState extends State<Kane> {
         ),
         _imageCount == 1
             ? Positioned(
-                top: ScreenUtil().setHeight(970),
+                top: ScreenUtil().setHeight(918),
                 left: ScreenUtil().setWidth(506),
                 right: ScreenUtil().setWidth(506),
                 child: InkWell(
