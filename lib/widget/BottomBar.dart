@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kane/Model/BottomBarType.dart';
 import 'package:kane/Model/KaneType.dart';
@@ -14,7 +15,11 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  List<String> _menuImgList = ["kane/kane/kane1", "deploy/tajiri", "deploy/pear"];
+  List<String> _menuImgList = [
+    "kane/kane/kane1",
+    "deploy/tajiri",
+    "deploy/pear"
+  ];
   List<String> _menuTitleList = ["인물", "배치", "아이템"];
 
   List<String> _personImgList = [
@@ -25,7 +30,13 @@ class _BottomBarState extends State<BottomBar> {
   ];
   List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인"];
 
-  List<String> _deployImgList = ["deploy/tajiri", "deploy/kimsungkeun", "deploy/mushroom", "deploy/benz", "deploy/tgd"];
+  List<String> _deployImgList = [
+    "deploy/tajiri",
+    "deploy/kimsungkeun",
+    "deploy/mushroom",
+    "deploy/benz",
+    "deploy/tgd"
+  ];
   List<String> _deployTitleList = ["타지리", "감동님", "버섯섯", "구형벤츠", "사이트"];
 
   BottomBarType _bottomBarType = BottomBarType.Menu;
@@ -76,18 +87,26 @@ class _BottomBarState extends State<BottomBar> {
               return InkWell(
                 child: Column(
                   children: <Widget>[
-                    Image.asset(
-                      "assets/${imgList[index]}.webp",
-                      height: 60,
-                      width: 60,
+                    Container(
+                      height: 70,
+                      width: 70,
+                      child: Image.asset(
+                        "assets/${imgList[index]}.webp",
+                        height: 70,
+                        width: 70,
+                      ),
+                      padding: EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
                     ),
                     Container(
-                      child: Text(titleList[index], style: TextStyle(fontSize: 12.0),),
+                      child: Text(
+                        titleList[index],
+                        style: TextStyle(fontSize: 12.0),
+                      ),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16.0)),
+                      padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
                       margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     )
                   ],
                   mainAxisSize: MainAxisSize.min,

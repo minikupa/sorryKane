@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
       children: <Widget>[
         Container(
-          height: ScreenUtil().setHeight(1650),
+          height: ScreenUtil().setHeight(1600),
           child: Stack(
             children: <Widget>[
               Positioned.fill(
