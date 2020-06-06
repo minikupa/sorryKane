@@ -39,6 +39,9 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (_controller.value.isPlaying && !_isTajiriPlay) {
+      _controller.pause();
+    }
     return _isOn
         ? Stack(
             children: <Widget>[
@@ -51,7 +54,7 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
                       Tween(begin: 0.1, end: 0.0).animate(rotationController),
                   child: InkWell(
                     child: Image.asset(
-                      "assets/tajiri.webp",
+                      "assets/deploy/tajiri.webp",
                       width: 200,
                     ),
                     onTap: () {
@@ -91,7 +94,7 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
   onOffLocation() {
     setState(() {
       _isOn = !_isOn;
-      if(!_isOn){
+      if (!_isOn) {
         _controller.pause();
       }
     });

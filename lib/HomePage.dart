@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:kane/widget/Benz.dart';
+import 'package:kane/widget/Mushroom.dart';
 import 'Model/KaneType.dart';
-import 'Model/LocationType.dart';
+import 'Model/DeployType.dart';
 import 'widget/BottomBar.dart';
 import 'widget/Hanwha.dart';
 import 'widget/Tajiri.dart';
-
+import 'widget/Site.dart';
 import 'widget/Kane.dart';
 
 void main() => runApp(MaterialApp(
@@ -24,6 +25,9 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<KaneState> _kaneKey = GlobalKey<KaneState>();
   GlobalKey<TajiriState> _tajiriKey = GlobalKey<TajiriState>();
   GlobalKey<HanwhaState> _hanwhaKey = GlobalKey<HanwhaState>();
+  GlobalKey<MushroomState> _mushroomKey = GlobalKey<MushroomState>();
+  GlobalKey<BenzState> _benzKey = GlobalKey<BenzState>();
+  GlobalKey<SiteState> _siteKey = GlobalKey<SiteState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
       children: <Widget>[
         Container(
-          height: ScreenUtil().setHeight(1750),
+          height: ScreenUtil().setHeight(1650),
           child: Stack(
             children: <Widget>[
               Positioned.fill(
@@ -51,39 +55,13 @@ class _HomePageState extends State<HomePage> {
               Tajiri(
                 key: _tajiriKey,
               ),
-              Align(
-                alignment: Alignment(-1.0, 1.0),
-                child: Image.asset(
-                  "assets/mushroom.webp",
-                  width: 70,
-                  fit: BoxFit.cover,
-                ),
+              Mushroom(
+                key: _mushroomKey,
               ),
-              Container(
-                alignment: Alignment.bottomRight,
-                margin: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    InkWell(
-                        child: Image.asset(
-                          "assets/tgd.webp",
-                          width: 20,
-                        ),
-                        onTap: () => _launchURL("https://tgd.kr/kanetv8")),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: InkWell(
-                        child: Image.asset(
-                          "assets/copyright.webp",
-                          width: 20,
-                        ),
-                        onTap: () => _launchURL("https://minikupa.com/142"),
-                      ),
-                    )
-                  ],
-                  mainAxisSize: MainAxisSize.min,
-                ),
-              )
+              Benz(
+                key: _benzKey,
+              ),
+              Site(key: _siteKey,)
             ],
           ),
         ),
@@ -98,20 +76,23 @@ class _HomePageState extends State<HomePage> {
     _kaneKey.currentState.changeKane(kaneType);
   }
 
-  _onOffLocation(LocationType locationType) {
+  _onOffLocation(DeployType locationType) {
     switch (locationType) {
-      case LocationType.Tajiri:
+      case DeployType.Tajiri:
         _tajiriKey.currentState.onOffLocation();
         break;
-      case LocationType.Kimsungkeun:
+      case DeployType.Kimsungkeun:
         _hanwhaKey.currentState.onOffLocation();
         break;
-    }
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+      case DeployType.Mushroom:
+        _mushroomKey.currentState.onOffLocation();
+        break;
+      case DeployType.Benz:
+        _benzKey.currentState.onOffLocation();
+        break;
+      case DeployType.Site:
+        _siteKey.currentState.onOffLocation();
+        break;
     }
   }
 }

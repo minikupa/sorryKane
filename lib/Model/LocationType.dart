@@ -1,4 +1,0 @@
-enum LocationType {
-  Tajiri,
-  Kimsungkeun
-}

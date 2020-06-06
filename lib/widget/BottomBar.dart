@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kane/Model/BottomBarType.dart';
 import 'package:kane/Model/KaneType.dart';
-import 'package:kane/Model/LocationType.dart';
+import 'package:kane/Model/DeployType.dart';
 
 class BottomBar extends StatefulWidget {
   final Function changeKane;
@@ -14,19 +14,19 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  List<String> _menuImgList = ["kane/kane1", "tajiri", "pear"];
+  List<String> _menuImgList = ["kane/kane/kane1", "deploy/tajiri", "deploy/pear"];
   List<String> _menuTitleList = ["인물", "배치", "아이템"];
 
   List<String> _personImgList = [
-    "kane/kane1",
-    "kane/ricardo/ricardo000",
+    "kane/kane/kane1",
+    "kane/ricardo/ricardo",
     "kane/sexyKane/sexyKane00",
     "kane/hanwha/hanwha00",
   ];
   List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인"];
 
-  List<String> _locationImgList = ["tajiri", "kimsungkeun"];
-  List<String> _locationTitleList = ["타지리", "감동님"];
+  List<String> _deployImgList = ["deploy/tajiri", "deploy/kimsungkeun", "deploy/mushroom", "deploy/benz", "deploy/tgd"];
+  List<String> _deployTitleList = ["타지리", "감동님", "버섯섯", "구형벤츠", "사이트"];
 
   BottomBarType _bottomBarType = BottomBarType.Menu;
 
@@ -43,8 +43,8 @@ class _BottomBarState extends State<BottomBar> {
         imgList = _personImgList;
         break;
       default:
-        titleList = _locationTitleList;
-        imgList = _locationImgList;
+        titleList = _deployTitleList;
+        imgList = _deployImgList;
     }
     return Container(
       width: double.infinity,
@@ -53,87 +53,100 @@ class _BottomBarState extends State<BottomBar> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: List.generate(titleList.length + 1, (index) {
-            if (index == 0) {
-              return _bottomBarType != BottomBarType.Menu ? Container(
-                  width: 60,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    child: Text("X"),
-                    color: Colors.white,
-                    onPressed: () => setState(() => _bottomBarType = BottomBarType.Menu),
-                  )) : Container();
-            } else {
-              return Container(
-                width: 140,
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  child: Row(
-                    children: <Widget>[
-                      Image.asset(
-                        "assets/${imgList[index - 1]}.webp",
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.contain,
+          children: <Widget>[
+            _bottomBarType != BottomBarType.Menu
+                ? Container(
+                    width: 60,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: RaisedButton(
+                      child: Text(
+                        "X",
+                        style: TextStyle(fontSize: 10.0),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(titleList[index - 1]),
-                      )
-                    ],
-                    mainAxisSize: MainAxisSize.min,
-                  ),
-                  color: Colors.white,
-                  onPressed: () {
-                    switch (_bottomBarType) {
-                      case BottomBarType.Menu:
-                        switch (index - 1) {
-                          case 0:
-                            setState(
-                                () => _bottomBarType = BottomBarType.Person);
-                            break;
-                          case 1:
-                            setState(
-                                () => _bottomBarType = BottomBarType.Location);
-                            break;
-                        }
-                        break;
-                      case BottomBarType.Person:
-                        switch (index - 1) {
-                          case 0:
-                            widget.changeKane(KaneType.Kane);
-                            break;
-                          case 1:
-                            widget.changeKane(KaneType.Ricardo);
-                            break;
-                          case 2:
-                            widget.changeKane(KaneType.SexyKane);
-                            break;
-                          case 3:
-                            widget.changeKane(KaneType.HanwhaKane);
-                            break;
-                        }
-                        setState(() => _bottomBarType = BottomBarType.Menu);
-                        break;
-                      case BottomBarType.Location:
-                        switch (index - 1) {
-                          case 0:
-                            widget.onOffLocation(LocationType.Tajiri);
-                            break;
-                          case 1:
-                            widget.onOffLocation(LocationType.Kimsungkeun);
-                            break;
-                        }
-                        setState(() => _bottomBarType = BottomBarType.Menu);
-                        break;
-                    }
-                  },
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32.0)),
+                      onPressed: () =>
+                          setState(() => _bottomBarType = BottomBarType.Menu),
+                    ))
+                : Container(),
+            Row(
+                children: List.generate(titleList.length, (index) {
+              return InkWell(
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/${imgList[index]}.webp",
+                      height: 60,
+                      width: 60,
+                    ),
+                    Container(
+                      child: Text(titleList[index], style: TextStyle(fontSize: 12.0),),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.0)),
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    )
+                  ],
+                  mainAxisSize: MainAxisSize.min,
                 ),
+                onTap: () {
+                  switch (_bottomBarType) {
+                    case BottomBarType.Menu:
+                      switch (index) {
+                        case 0:
+                          setState(() => _bottomBarType = BottomBarType.Person);
+                          break;
+                        case 1:
+                          setState(
+                              () => _bottomBarType = BottomBarType.Location);
+                          break;
+                      }
+                      break;
+                    case BottomBarType.Person:
+                      switch (index) {
+                        case 0:
+                          widget.changeKane(KaneType.Kane);
+                          break;
+                        case 1:
+                          widget.changeKane(KaneType.Ricardo);
+                          break;
+                        case 2:
+                          widget.changeKane(KaneType.SexyKane);
+                          break;
+                        case 3:
+                          widget.changeKane(KaneType.HanwhaKane);
+                          break;
+                      }
+                      setState(() => _bottomBarType = BottomBarType.Menu);
+                      break;
+                    case BottomBarType.Location:
+                      switch (index) {
+                        case 0:
+                          widget.onOffLocation(DeployType.Tajiri);
+                          break;
+                        case 1:
+                          widget.onOffLocation(DeployType.Kimsungkeun);
+                          break;
+                        case 2:
+                          widget.onOffLocation(DeployType.Mushroom);
+                          break;
+                        case 3:
+                          widget.onOffLocation(DeployType.Benz);
+                          break;
+                        case 4:
+                          widget.onOffLocation(DeployType.Site);
+                          break;
+                      }
+                      setState(() => _bottomBarType = BottomBarType.Menu);
+                      break;
+                  }
+                },
               );
-            }
-          }),
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            })),
+          ],
         ),
       ),
     );

@@ -46,7 +46,7 @@ class KaneState extends State<Kane> {
           alignment: Alignment.bottomCenter,
           child: InkWell(
             child: Image.asset(
-              "assets/kane/kane$_imageCount.webp",
+              "assets/kane/kane/kane$_imageCount.webp",
               height: ScreenUtil().setHeight(800),
               fit: BoxFit.cover,
               gaplessPlayback: true,
@@ -78,7 +78,7 @@ class KaneState extends State<Kane> {
         ),
         _imageCount == 1
             ? Positioned(
-                top: ScreenUtil().setHeight(1066),
+                top: ScreenUtil().setHeight(970),
                 left: ScreenUtil().setWidth(506),
                 right: ScreenUtil().setWidth(506),
                 child: InkWell(
@@ -87,13 +87,13 @@ class KaneState extends State<Kane> {
                           colorFilter: ColorFilter.mode(
                               Colors.grey[400], BlendMode.modulate),
                           child: Image.asset(
-                            "assets/kane/nose.webp",
+                            "assets/kane/kane/nose.webp",
                             width: ScreenUtil().setHeight(40),
                             height: ScreenUtil().setHeight(40),
                             fit: BoxFit.contain,
                           ))
                       : Image.asset(
-                          "assets/kane/nose.webp",
+                          "assets/kane/kane/nose.webp",
                           width: ScreenUtil().setHeight(40),
                           height: ScreenUtil().setHeight(40),
                           fit: BoxFit.contain,
