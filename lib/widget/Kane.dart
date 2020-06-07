@@ -104,7 +104,7 @@ class KaneState extends State<Kane> {
                       _noseCount = 0;
                       _cache.play('music/igonan.m4a');
                     } else {
-                      _cache.play('music/bbolong.m4a');
+                      _cache.play('music/bbolong.mp3');
                     }
                   },
                   onTapDown: (_) => setState(() => _isHover = true),
@@ -210,7 +210,8 @@ class KaneState extends State<Kane> {
               if (_imageCount == 1) {
                 _player = await _cache.play('music/hanwha.mp3');
                 for (int j = 1; j <= 61; j++) {
-                  if (_kaneType != KaneType.HanwhaKane) {
+                  if (_kaneType != KaneType.HanwhaKane || _isStop) {
+                    _isStop = false;
                     _player.stop();
                     break;
                   }
@@ -219,6 +220,9 @@ class KaneState extends State<Kane> {
                   });
                 }
                 setState(() => _imageCount = 1);
+              } else {
+                _player.stop();
+                setState(() => _isStop = true);
               }
             },
           ),

@@ -38,8 +38,18 @@ class _BottomBarState extends State<BottomBar> {
     "deploy/tgd"
   ];
   List<String> _deployTitleList = ["타지리", "감동님", "버섯섯", "구형벤츠", "사이트"];
+  List<bool> _deployBoolList = [
+    true,
+    true,
+    true,
+    true,
+    true,
+  ];
 
   BottomBarType _bottomBarType = BottomBarType.Menu;
+  List<BottomBarType> _bottomTypeList = [BottomBarType.Person, BottomBarType.Location];
+  List<KaneType> _kaneTypeList = [KaneType.Kane, KaneType.Ricardo, KaneType.SexyKane, KaneType.HanwhaKane];
+  List<DeployType> _deployTypeList = [DeployType.Tajiri, DeployType.Kimsungkeun, DeployType.Mushroom, DeployType.Benz, DeployType.Site];
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +105,8 @@ class _BottomBarState extends State<BottomBar> {
                         height: 70,
                         width: 70,
                       ),
-                      padding: EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
+                      padding:
+                          EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
                     ),
                     Container(
                       child: Text(
@@ -103,7 +114,7 @@ class _BottomBarState extends State<BottomBar> {
                         style: TextStyle(fontSize: 12.0),
                       ),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: _bottomBarType == BottomBarType.Location && _deployBoolList[index] ? Colors.green[100] : Colors.white,
                           borderRadius: BorderRadius.circular(16.0)),
                       padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
                       margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -114,52 +125,18 @@ class _BottomBarState extends State<BottomBar> {
                 onTap: () {
                   switch (_bottomBarType) {
                     case BottomBarType.Menu:
-                      switch (index) {
-                        case 0:
-                          setState(() => _bottomBarType = BottomBarType.Person);
-                          break;
-                        case 1:
-                          setState(
-                              () => _bottomBarType = BottomBarType.Location);
-                          break;
-                      }
+                      setState(() => _bottomBarType = _bottomTypeList[index]);
                       break;
                     case BottomBarType.Person:
-                      switch (index) {
-                        case 0:
-                          widget.changeKane(KaneType.Kane);
-                          break;
-                        case 1:
-                          widget.changeKane(KaneType.Ricardo);
-                          break;
-                        case 2:
-                          widget.changeKane(KaneType.SexyKane);
-                          break;
-                        case 3:
-                          widget.changeKane(KaneType.HanwhaKane);
-                          break;
-                      }
+                      widget.changeKane(_kaneTypeList[index]);
                       setState(() => _bottomBarType = BottomBarType.Menu);
                       break;
                     case BottomBarType.Location:
-                      switch (index) {
-                        case 0:
-                          widget.onOffLocation(DeployType.Tajiri);
-                          break;
-                        case 1:
-                          widget.onOffLocation(DeployType.Kimsungkeun);
-                          break;
-                        case 2:
-                          widget.onOffLocation(DeployType.Mushroom);
-                          break;
-                        case 3:
-                          widget.onOffLocation(DeployType.Benz);
-                          break;
-                        case 4:
-                          widget.onOffLocation(DeployType.Site);
-                          break;
-                      }
-                      setState(() => _bottomBarType = BottomBarType.Menu);
+                      widget.onOffLocation(_deployTypeList[index]);
+                      setState(() {
+                        _deployBoolList[index] = !_deployBoolList[index];
+                        _bottomBarType = BottomBarType.Menu;
+                      });
                       break;
                   }
                 },

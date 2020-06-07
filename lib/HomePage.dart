@@ -46,6 +46,9 @@ class _HomePageState extends State<HomePage> {
                 height: double.infinity,
                 fit: BoxFit.cover,
               )),
+              Mushroom(
+                key: _mushroomKey,
+              ),
               Kane(
                 key: _kaneKey,
               ),
@@ -55,13 +58,12 @@ class _HomePageState extends State<HomePage> {
               Tajiri(
                 key: _tajiriKey,
               ),
-              Mushroom(
-                key: _mushroomKey,
-              ),
               Benz(
                 key: _benzKey,
               ),
-              Site(key: _siteKey,)
+              Site(
+                key: _siteKey,
+              )
             ],
           ),
         ),

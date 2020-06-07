@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,13 +9,12 @@ class Tajiri extends StatefulWidget {
 }
 
 class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
-  double _leftPositioned = -120;
-  AnimationController rotationController;
-
   bool _isTajiriPlay = false;
   bool _isPlaying = false;
   bool _isOn = true;
+
   VideoPlayerController _controller;
+  AnimationController rotationController;
 
   @override
   void initState() {
@@ -29,7 +26,6 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
           setState(() {
             _isTajiriPlay = false;
             rotationController.reset();
-            _leftPositioned = -120;
           });
         }
         _isPlaying = _controller.value.isPlaying;
@@ -39,16 +35,13 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller.value.isPlaying && !_isTajiriPlay) {
-      _controller.pause();
-    }
     return _isOn
         ? Stack(
             children: <Widget>[
               AnimatedPositioned(
                 duration: Duration(milliseconds: 300),
                 top: 240,
-                left: _leftPositioned,
+                left: _isTajiriPlay ? 0 : -120,
                 child: RotationTransition(
                   turns:
                       Tween(begin: 0.1, end: 0.0).animate(rotationController),
@@ -57,22 +50,29 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
                       "assets/deploy/tajiri.webp",
                       width: 200,
                     ),
-                    onTap: () {
+                    onTap: ()  {
                       if (!_isTajiriPlay) {
                         setState(() {
-                          _leftPositioned = 0;
                           rotationController.forward();
                           _isTajiriPlay = true;
-                          _controller
-                              .initialize()
-                              .then((_) => _controller.play());
+                            _controller
+                                .initialize()
+                                .then((_) => _controller.play());
                         });
                       } else {
-                        _controller.pause();
+                        setState(() {
+                          _isTajiriPlay = false;
+                          _controller.pause();
+                        });
                       }
                     },
                   ),
                 ),
+                onEnd: () {
+                  if (!_isTajiriPlay) {
+                    _controller.pause();
+                  }
+                },
               ),
               Align(
                 alignment: Alignment(0.2, -0.4),

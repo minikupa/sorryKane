@@ -9,7 +9,6 @@ class Hanwha extends StatefulWidget {
 }
 
 class HanwhaState extends State<Hanwha> {
-  bool _isHanwhaHover = false;
   bool _isHanwhaPlay = false;
   bool _isPlaying = false;
   bool _isOn = true;
@@ -18,61 +17,52 @@ class HanwhaState extends State<Hanwha> {
 
   @override
   void initState() {
-    super.initState();
+
     _controller = VideoPlayerController.asset("assets/video/hanwha.mp4")
       ..addListener(() {
         if (_isPlaying && !_controller.value.isPlaying && _isHanwhaPlay) {
-          setState(() {
-            _isHanwhaPlay = false;
-          });
+          setState(() => _isHanwhaPlay = false);
         }
         _isPlaying = _controller.value.isPlaying;
       });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isHanwhaPlay && _controller.value.isPlaying) {
-      _controller.pause();
-    }
     return _isOn
         ? Stack(
             children: <Widget>[
-              Align(
-                alignment: Alignment(0.95, -0.4),
+              AnimatedPositioned(
+                right: 0,
+                top: _isHanwhaPlay ? 100 : 100.1,
+                duration: Duration(milliseconds: 10),
                 child: InkWell(
-                  child: _isHanwhaHover
-                      ? ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              Colors.grey[400], BlendMode.modulate),
-                          child: Image.asset(
-                            "assets/deploy/kimsungkeun.webp",
-                            width: 80,
-                          ),
-                        )
-                      : Image.asset(
-                          "assets/deploy/kimsungkeun.webp",
-                          width: 80,
-                        ),
-                  onTap: () {
+                  child: Image.asset(
+                    "assets/deploy/kimsungkeun.webp",
+                    width: 80,
+                  ),
+                  onTap: () async {
                     if (!_isHanwhaPlay) {
                       setState(() {
                         _isHanwhaPlay = true;
-                        _isHanwhaHover = false;
-                        _controller
-                            .initialize()
-                            .then((_) => _controller.play());
+                          _controller
+                              .initialize()
+                              .then((_) => _controller.play());
                       });
                     } else {
                       setState(() {
-                        _isHanwhaHover = false;
+                        _isHanwhaPlay = false;
                         _controller.pause();
                       });
                     }
                   },
-                  onTapDown: (_) => setState(() => _isHanwhaHover = true),
-                  onTapCancel: () => setState(() => _isHanwhaHover = false),
                 ),
+                onEnd: () {
+                  if (!_isHanwhaPlay && _controller.value.isPlaying) {
+                    _controller.pause();
+                  }
+                },
               ),
               Align(
                 alignment: Alignment(0.5, -0.6),
