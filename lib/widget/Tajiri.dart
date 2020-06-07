@@ -52,18 +52,15 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
                     ),
                     onTap: ()  {
                       if (!_isTajiriPlay) {
+                        _controller
+                            .initialize()
+                            .then((_) => _controller.play());
                         setState(() {
                           rotationController.forward();
                           _isTajiriPlay = true;
-                            _controller
-                                .initialize()
-                                .then((_) => _controller.play());
                         });
                       } else {
-                        setState(() {
-                          _isTajiriPlay = false;
-                          _controller.pause();
-                        });
+                        _controller.pause();
                       }
                     },
                   ),

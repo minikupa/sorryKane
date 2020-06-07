@@ -42,19 +42,14 @@ class HanwhaState extends State<Hanwha> {
                     "assets/deploy/kimsungkeun.webp",
                     width: 80,
                   ),
-                  onTap: () async {
+                  onTap: () {
                     if (!_isHanwhaPlay) {
-                      setState(() {
-                        _isHanwhaPlay = true;
-                          _controller
-                              .initialize()
-                              .then((_) => _controller.play());
-                      });
+                      _controller
+                          .initialize()
+                          .then((_) => _controller.play());
+                      setState(() => _isHanwhaPlay = true);
                     } else {
-                      setState(() {
-                        _isHanwhaPlay = false;
-                        _controller.pause();
-                      });
+                      _controller.pause();
                     }
                   },
                 ),
