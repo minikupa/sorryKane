@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kane/Model/BottomBarType.dart';
-import 'package:kane/Model/KaneType.dart';
-import 'package:kane/Model/DeployType.dart';
+import 'package:kane/model/KaneType.dart';
+import 'package:kane/model/DeployType.dart';
+import 'package:kane/model/BottomBarType.dart';
+import 'package:kane/model/PlaceType.dart';
 
 class BottomBar extends StatefulWidget {
   final Function changeKane;
-  final Function onOffLocation;
+  final Function changeBackground;
+  final Function onOffDeploy;
 
-  BottomBar(this.changeKane, this.onOffLocation);
+  BottomBar(this.changeKane, this.changeBackground, this.onOffDeploy);
 
   @override
   _BottomBarState createState() => _BottomBarState();
@@ -18,17 +20,18 @@ class _BottomBarState extends State<BottomBar> {
   List<String> _menuImgList = [
     "kane/kane/kane1",
     "deploy/tajiri",
-    "deploy/pear"
+    "background/hanwha"
   ];
-  List<String> _menuTitleList = ["인물", "배치", "아이템"];
+  List<String> _menuTitleList = ["인물", "배치", "장소"];
 
   List<String> _personImgList = [
-    "kane/kane/kane1",
+    "kane/kane/kane0",
     "kane/ricardo/ricardo",
-    "kane/sexyKane/sexyKane00",
-    "kane/hanwha/hanwha00",
+    "kane/sexyKane/sexyKane0",
+    "kane/hanwha/hanwha000",
+    "kane/moemoe/moemoe135",
   ];
-  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인"];
+  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인", "모에케인"];
 
   List<String> _deployImgList = [
     "deploy/tajiri",
@@ -46,10 +49,33 @@ class _BottomBarState extends State<BottomBar> {
     true,
   ];
 
+  List<String> _placeImgList = [
+    "background/background",
+    "background/hanwha"
+  ];
+  List<String> _placeTitleList = ["크로마키", "야구장"];
+
   BottomBarType _bottomBarType = BottomBarType.Menu;
-  List<BottomBarType> _bottomTypeList = [BottomBarType.Person, BottomBarType.Location];
-  List<KaneType> _kaneTypeList = [KaneType.Kane, KaneType.Ricardo, KaneType.SexyKane, KaneType.HanwhaKane];
-  List<DeployType> _deployTypeList = [DeployType.Tajiri, DeployType.Kimsungkeun, DeployType.Mushroom, DeployType.Benz, DeployType.Site];
+  List<BottomBarType> _bottomTypeList = [
+    BottomBarType.Person,
+    BottomBarType.Deploy,
+    BottomBarType.Place
+  ];
+  List<KaneType> _kaneTypeList = [
+    KaneType.Kane,
+    KaneType.Ricardo,
+    KaneType.SexyKane,
+    KaneType.HanwhaKane,
+    KaneType.MoemoeKane
+  ];
+  List<DeployType> _deployTypeList = [
+    DeployType.Tajiri,
+    DeployType.Kimsungkeun,
+    DeployType.Mushroom,
+    DeployType.Benz,
+    DeployType.Site
+  ];
+  List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall];
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +89,13 @@ class _BottomBarState extends State<BottomBar> {
         titleList = _personTitleList;
         imgList = _personImgList;
         break;
-      default:
+      case BottomBarType.Deploy:
         titleList = _deployTitleList;
         imgList = _deployImgList;
+        break;
+      default:
+        titleList = _placeTitleList;
+        imgList = _placeImgList;
     }
     return Container(
       width: double.infinity,
@@ -114,7 +144,10 @@ class _BottomBarState extends State<BottomBar> {
                         style: TextStyle(fontSize: 12.0),
                       ),
                       decoration: BoxDecoration(
-                          color: _bottomBarType == BottomBarType.Location && _deployBoolList[index] ? Colors.green[100] : Colors.white,
+                          color: _bottomBarType == BottomBarType.Deploy &&
+                                  _deployBoolList[index]
+                              ? Colors.green[100]
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(16.0)),
                       padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
                       margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -131,13 +164,16 @@ class _BottomBarState extends State<BottomBar> {
                       widget.changeKane(_kaneTypeList[index]);
                       setState(() => _bottomBarType = BottomBarType.Menu);
                       break;
-                    case BottomBarType.Location:
-                      widget.onOffLocation(_deployTypeList[index]);
+                    case BottomBarType.Deploy:
+                      widget.onOffDeploy(_deployTypeList[index]);
                       setState(() {
                         _deployBoolList[index] = !_deployBoolList[index];
                         _bottomBarType = BottomBarType.Menu;
                       });
                       break;
+                    default:
+                      widget.changeBackground(_placeTypeList[index]);
+                      setState(() => _bottomBarType = BottomBarType.Menu);
                   }
                 },
               );

@@ -1,0 +1,4 @@
+enum PlaceType {
+  ChromaKey,
+  BaseBall
+}

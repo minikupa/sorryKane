@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kane/widget/Benz.dart';
-import 'package:kane/widget/Mushroom.dart';
-import 'Model/KaneType.dart';
-import 'Model/DeployType.dart';
+import 'model/KaneType.dart';
+import 'model/PlaceType.dart';
+import 'widget/Benz.dart';
+import 'widget/Mushroom.dart';
+import 'model/DeployType.dart';
 import 'widget/BottomBar.dart';
 import 'widget/Hanwha.dart';
 import 'widget/Tajiri.dart';
@@ -29,6 +30,8 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<BenzState> _benzKey = GlobalKey<BenzState>();
   GlobalKey<SiteState> _siteKey = GlobalKey<SiteState>();
 
+  PlaceType _placeType = PlaceType.ChromaKey;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -41,7 +44,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Positioned.fill(
                   child: Image.asset(
-                "assets/background.webp",
+                "assets/background/${_placeType == PlaceType.ChromaKey ? "background" : "baseball_field"}.webp",
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(
-          child: BottomBar(_changeKane, _onOffLocation),
+          child: BottomBar(_changeKane, _changeBackground, _onOffLocation),
         )
       ],
     ));
@@ -76,6 +79,10 @@ class _HomePageState extends State<HomePage> {
 
   _changeKane(KaneType kaneType) {
     _kaneKey.currentState.changeKane(kaneType);
+  }
+
+  _changeBackground(PlaceType placeType) {
+    setState(() => _placeType = placeType);
   }
 
   _onOffLocation(DeployType locationType) {

@@ -24,7 +24,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   audioplayers: ^0.15.1
-  flutter_screenutil: ^2.2.0
+  flutter_screenutil: ^2.3.1
   video_player: ^0.10.11+2
   url_launcher: ^5.5.0
 
@@ -51,6 +51,8 @@ flutter:
     - assets/kane/ricardo/
     - assets/kane/sexyKane/
     - assets/kane/hanwha/
+    - assets/kane/moemoe/
+    - assets/background/
     - assets/deploy/
     - assets/music/
     - assets/video/

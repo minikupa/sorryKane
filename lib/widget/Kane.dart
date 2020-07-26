@@ -4,7 +4,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kane/Model/KaneType.dart';
+import 'package:kane/model/KaneType.dart';
 
 class Kane extends StatefulWidget {
 
@@ -15,7 +15,7 @@ class Kane extends StatefulWidget {
 }
 
 class KaneState extends State<Kane> {
-  int _imageCount = 1;
+  int _imageCount = 0;
   int _noseCount = 0;
   bool _isHover = false;
   bool _isStop = false;
@@ -34,6 +34,8 @@ class KaneState extends State<Kane> {
         return _ricardo();
       case KaneType.SexyKane:
         return _sexyKane();
+      case KaneType.MoemoeKane:
+        return _moemoeKane();
       default:
         return _hanwhaKane();
     }
@@ -52,13 +54,13 @@ class KaneState extends State<Kane> {
               gaplessPlayback: true,
             ),
             onTap: () async {
-              if (_imageCount == 1) {
+              if (_imageCount == 0) {
                 _player = await _cache.play('music/sorry.mp3', volume: 3.0);
                 for (int i = 0; i < 2; i++) {
                   for (int j = 1; j <= 7; j++) {
                     if (_kaneType != KaneType.Kane) {
                       _player.stop();
-                      setState(() => _imageCount = 1);
+                      setState(() => _imageCount = 0);
                       break;
                     }
                     await Future.delayed(const Duration(milliseconds: 50), () {
@@ -76,7 +78,7 @@ class KaneState extends State<Kane> {
             },
           ),
         ),
-        _imageCount == 1
+        _imageCount == 0
             ? Positioned(
                 top: ScreenUtil().setHeight(918),
                 left: ScreenUtil().setWidth(506),
@@ -123,13 +125,13 @@ class KaneState extends State<Kane> {
           alignment: Alignment.bottomCenter,
           child: InkWell(
             child: Image.asset(
-              "assets/kane/ricardo/ricardo${_imageCount < 11 ? "00${_imageCount - 1}" : (_imageCount < 101 ? "0${_imageCount - 1}" : _imageCount - 1)}.webp",
+              "assets/kane/ricardo/ricardo${_imageCount.toString().padLeft(3, '0')}.webp",
               height: ScreenUtil().setHeight(800),
               fit: BoxFit.cover,
               gaplessPlayback: true,
             ),
             onTap: () async {
-              if (_imageCount == 1) {
+              if (_imageCount == 0) {
                 _player = await _cache.play('music/ricardo.mp3');
                 for (int i = 0; i <= 211; i++) {
                   if (_kaneType != KaneType.Ricardo || _isStop) {
@@ -141,7 +143,7 @@ class KaneState extends State<Kane> {
                     setState(() => _imageCount++);
                   });
                 }
-                setState(() => _imageCount = 1);
+                setState(() => _imageCount = 0);
               } else {
                 _player.stop();
                 setState(() => _isStop = true);
@@ -160,18 +162,18 @@ class KaneState extends State<Kane> {
           alignment: Alignment.bottomCenter,
           child: InkWell(
             child: Image.asset(
-              "assets/kane/sexyKane/sexyKane0${_imageCount - 1}.webp",
+              "assets/kane/sexyKane/sexyKane$_imageCount.webp",
               height: ScreenUtil().setHeight(800),
               fit: BoxFit.cover,
               gaplessPlayback: true,
             ),
             onTap: () async {
-              if (_imageCount == 1) {
+              if (_imageCount == 0) {
                 _player = await _cache.play('music/sexyKane.mp3');
                 for (int i = 0; i < 2; i++) {
                   for (int j = 1; j <= 7; j++) {
                     if (_kaneType != KaneType.SexyKane) {
-                      setState(() => _imageCount = 1);
+                      setState(() => _imageCount = 0);
                       _player.stop();
                       break;
                     }
@@ -201,25 +203,62 @@ class KaneState extends State<Kane> {
           alignment: Alignment.bottomCenter,
           child: InkWell(
             child: Image.asset(
-              "assets/kane/hanwha/hanwha${_imageCount > 10 ? _imageCount - 1 : "0${_imageCount - 1}"}.webp",
+              "assets/kane/hanwha/hanwha${_imageCount.toString().padLeft(3, '0')}.webp",
               height: ScreenUtil().setHeight(800),
               fit: BoxFit.cover,
               gaplessPlayback: true,
             ),
             onTap: () async {
-              if (_imageCount == 1) {
+              if (_imageCount == 0) {
                 _player = await _cache.play('music/hanwha.mp3');
-                for (int j = 1; j <= 61; j++) {
+                for (int j = 1; j <= 202; j++) {
                   if (_kaneType != KaneType.HanwhaKane || _isStop) {
                     _isStop = false;
                     _player.stop();
                     break;
                   }
-                  await Future.delayed(const Duration(milliseconds: 125), () {
+                  await Future.delayed(const Duration(milliseconds: 42), () {
                     setState(() => _imageCount++);
                   });
                 }
-                setState(() => _imageCount = 1);
+                setState(() => _imageCount = 0);
+              } else {
+                _player.stop();
+                setState(() => _isStop = true);
+              }
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _moemoeKane() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: InkWell(
+            child: Image.asset(
+              "assets/kane/moemoe/moemoe${_imageCount == 0 ? "136" : _imageCount.toString().padLeft(3, '0')}.webp",
+              height: ScreenUtil().setHeight(800),
+              fit: BoxFit.cover,
+              gaplessPlayback: true,
+            ),
+            onTap: () async {
+              if (_imageCount == 0) {
+                _player = await _cache.play('music/moemoe.mp3');
+                for (int j = 1; j <= 136; j++) {
+                  if (_kaneType != KaneType.MoemoeKane || _isStop) {
+                    _isStop = false;
+                    _player.stop();
+                    break;
+                  }
+                  await Future.delayed(const Duration(milliseconds: 42), () {
+                    setState(() => _imageCount++);
+                  });
+                }
+                setState(() => _imageCount = 0);
               } else {
                 _player.stop();
                 setState(() => _isStop = true);
