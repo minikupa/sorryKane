@@ -52,9 +52,6 @@ class _HomePageState extends State<HomePage> {
               Mushroom(
                 key: _mushroomKey,
               ),
-              Kane(
-                key: _kaneKey,
-              ),
               Hanwha(
                 key: _hanwhaKey,
               ),
@@ -66,7 +63,10 @@ class _HomePageState extends State<HomePage> {
               ),
               Site(
                 key: _siteKey,
-              )
+              ),
+              Kane(
+                key: _kaneKey,
+              ),
             ],
           ),
         ),

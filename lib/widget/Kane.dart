@@ -4,22 +4,22 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_sequence_animator/image_sequence_animator.dart';
 import 'package:kane/model/KaneType.dart';
 
 class Kane extends StatefulWidget {
-
-  Kane({Key key}) : super(key : key);
+  Kane({Key key}) : super(key: key);
 
   @override
   KaneState createState() => KaneState();
 }
 
 class KaneState extends State<Kane> {
-  int _imageCount = 0;
   int _noseCount = 0;
   bool _isHover = false;
-  bool _isStop = false;
+  bool _isPlaying = false;
   KaneType _kaneType = KaneType.Kane;
+  List<GlobalKey<ImageSequenceAnimatorState>> animatorKeyList = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
 
   AudioCache _cache = AudioCache();
   AudioPlayer _player;
@@ -27,251 +27,117 @@ class KaneState extends State<Kane> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
+    Widget kane;
     switch (_kaneType) {
       case KaneType.Kane:
-        return _sorryKane();
+        kane = _kaneAnimation("kane", 8, 15, animatorKeyList[0], true);
+        break;
       case KaneType.Ricardo:
-        return _ricardo();
+        kane = _kaneAnimation("ricardo", 212, 15, animatorKeyList[1], false);
+        break;
       case KaneType.SexyKane:
-        return _sexyKane();
+        kane = _kaneAnimation("sexyKane", 9, 15, animatorKeyList[2], true);
+        break;
       case KaneType.MoemoeKane:
-        return _moemoeKane();
+        kane = _kaneAnimation("moemoe",  137, 24, animatorKeyList[3], false);
+        break;
       default:
-        return _hanwhaKane();
+        kane = _kaneAnimation("hanwha",  203, 24, animatorKeyList[4], false);
     }
-  }
 
-  Widget _sorryKane() {
     return Stack(
       children: <Widget>[
         Align(
           alignment: Alignment.bottomCenter,
-          child: InkWell(
-            child: Image.asset(
-              "assets/kane/kane/kane$_imageCount.webp",
-              height: ScreenUtil().setHeight(800),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
-            ),
-            onTap: () async {
-              if (_imageCount == 0) {
-                _player = await _cache.play('music/sorry.mp3', volume: 3.0);
-                for (int i = 0; i < 2; i++) {
-                  for (int j = 1; j <= 7; j++) {
-                    if (_kaneType != KaneType.Kane) {
-                      _player.stop();
-                      setState(() => _imageCount = 0);
-                      break;
-                    }
-                    await Future.delayed(const Duration(milliseconds: 50), () {
-                      setState(() {
-                        if (i == 0) {
-                          _imageCount++;
-                        } else {
-                          _imageCount--;
-                        }
-                      });
-                    });
-                  }
-                }
-              }
-            },
-          ),
+          child: kane,
         ),
-        _imageCount == 0
-            ? Positioned(
-                top: ScreenUtil().setHeight(918),
-                left: ScreenUtil().setWidth(506),
-                right: ScreenUtil().setWidth(506),
-                child: InkWell(
-                  child: _isHover
-                      ? ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              Colors.grey[400], BlendMode.modulate),
-                          child: Image.asset(
-                            "assets/kane/kane/nose.webp",
-                            width: ScreenUtil().setHeight(40),
-                            height: ScreenUtil().setHeight(40),
-                            fit: BoxFit.contain,
-                          ))
-                      : Image.asset(
-                          "assets/kane/kane/nose.webp",
-                          width: ScreenUtil().setHeight(40),
-                          height: ScreenUtil().setHeight(40),
-                          fit: BoxFit.contain,
-                        ),
-                  onTap: () {
-                    setState(() => _isHover = false);
-                    if (++_noseCount >= Random().nextInt(5) + 3) {
-                      _noseCount = 0;
-                      _cache.play('music/igonan.m4a');
-                    } else {
-                      _cache.play('music/bbolong.mp3');
-                    }
-                  },
-                  onTapDown: (_) => setState(() => _isHover = true),
-                  onTapCancel: () => setState(() => _isHover = false),
-                ),
-              )
-            : Container()
-      ],
-    );
-  }
-
-  Widget _ricardo() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.bottomCenter,
+        _kaneType == KaneType.Kane && !_isPlaying ? Positioned(
+          top: ScreenUtil().setHeight(918),
+          left: ScreenUtil().setWidth(506),
+          right: ScreenUtil().setWidth(506),
           child: InkWell(
-            child: Image.asset(
-              "assets/kane/ricardo/ricardo${_imageCount.toString().padLeft(3, '0')}.webp",
-              height: ScreenUtil().setHeight(800),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
+            child: _isHover
+                ? ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                    Colors.grey[400], BlendMode.modulate),
+                child: Image.asset(
+                  "assets/kane/kane/nose.webp",
+                  width: ScreenUtil().setHeight(40),
+                  height: ScreenUtil().setHeight(40),
+                  fit: BoxFit.contain,
+                ))
+                : Image.asset(
+              "assets/kane/kane/nose.webp",
+              width: ScreenUtil().setHeight(40),
+              height: ScreenUtil().setHeight(40),
+              fit: BoxFit.contain,
             ),
-            onTap: () async {
-              if (_imageCount == 0) {
-                _player = await _cache.play('music/ricardo.mp3');
-                for (int i = 0; i <= 211; i++) {
-                  if (_kaneType != KaneType.Ricardo || _isStop) {
-                    _player.stop();
-                    _isStop = false;
-                    break;
-                  }
-                  await Future.delayed(const Duration(milliseconds: 66), () {
-                    setState(() => _imageCount++);
-                  });
-                }
-                setState(() => _imageCount = 0);
+            onTap: () {
+              setState(() => _isHover = false);
+              if (++_noseCount >= Random().nextInt(5) + 3) {
+                _noseCount = 0;
+                _cache.play('music/igonan.m4a');
               } else {
-                _player.stop();
-                setState(() => _isStop = true);
+                _cache.play('music/bbolong.mp3');
               }
             },
+            onTapDown: (_) => setState(() => _isHover = true),
+            onTapCancel: () => setState(() => _isHover = false),
           ),
-        )
+        ) : Container()
       ],
     );
   }
 
-  Widget _sexyKane() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: InkWell(
-            child: Image.asset(
-              "assets/kane/sexyKane/sexyKane$_imageCount.webp",
-              height: ScreenUtil().setHeight(800),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
-            ),
-            onTap: () async {
-              if (_imageCount == 0) {
-                _player = await _cache.play('music/sexyKane.mp3');
-                for (int i = 0; i < 2; i++) {
-                  for (int j = 1; j <= 7; j++) {
-                    if (_kaneType != KaneType.SexyKane) {
-                      setState(() => _imageCount = 0);
-                      _player.stop();
-                      break;
-                    }
-                    await Future.delayed(const Duration(milliseconds: 66), () {
-                      setState(() {
-                        if (i == 0) {
-                          _imageCount++;
-                        } else {
-                          _imageCount--;
-                        }
-                      });
-                    });
-                  }
-                }
-              }
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _hanwhaKane() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: InkWell(
-            child: Image.asset(
-              "assets/kane/hanwha/hanwha${_imageCount.toString().padLeft(3, '0')}.webp",
-              height: ScreenUtil().setHeight(800),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
-            ),
-            onTap: () async {
-              if (_imageCount == 0) {
-                _player = await _cache.play('music/hanwha.mp3');
-                for (int j = 1; j <= 202; j++) {
-                  if (_kaneType != KaneType.HanwhaKane || _isStop) {
-                    _isStop = false;
-                    _player.stop();
-                    break;
-                  }
-                  await Future.delayed(const Duration(milliseconds: 42), () {
-                    setState(() => _imageCount++);
-                  });
-                }
-                setState(() => _imageCount = 0);
-              } else {
-                _player.stop();
-                setState(() => _isStop = true);
-              }
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _moemoeKane() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: InkWell(
-            child: Image.asset(
-              "assets/kane/moemoe/moemoe${_imageCount == 0 ? "136" : _imageCount.toString().padLeft(3, '0')}.webp",
-              height: ScreenUtil().setHeight(800),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
-            ),
-            onTap: () async {
-              if (_imageCount == 0) {
-                _player = await _cache.play('music/moemoe.mp3');
-                for (int j = 1; j <= 136; j++) {
-                  if (_kaneType != KaneType.MoemoeKane || _isStop) {
-                    _isStop = false;
-                    _player.stop();
-                    break;
-                  }
-                  await Future.delayed(const Duration(milliseconds: 42), () {
-                    setState(() => _imageCount++);
-                  });
-                }
-                setState(() => _imageCount = 0);
-              } else {
-                _player.stop();
-                setState(() => _isStop = true);
-              }
-            },
-          ),
-        )
-      ],
+  Widget _kaneAnimation(String name, double frameCount, double fps, GlobalKey<ImageSequenceAnimatorState> key, bool rewind) {
+    bool first = true;
+    return Container(
+      height: ScreenUtil().setHeight(800),
+      child: InkWell(
+        child: ImageSequenceAnimator(
+          "assets/kane/$name",
+          "$name",
+          0,
+          frameCount.toString().length - 2,
+          "webp",
+          frameCount,
+          key: key,
+          fps: fps,
+          isAutoPlay: false,
+          color: null,
+          onFinishPlaying: (animator) {
+            if(rewind && first) {
+              key.currentState.rewind();
+              first = false;
+            } else {
+              setState(() {
+                _isPlaying = false;
+                first = true;
+              });
+              key.currentState.reset();
+            }
+          },
+        ),
+        onTap: () async {
+          if (!_isPlaying) {
+            setState(() {
+              _isPlaying = true;
+            });
+            _player = await _cache.play('music/$name.mp3');
+            key.currentState.play();
+          } else {
+            setState(() {
+              _isPlaying = false;
+              first = true;
+            });
+            key.currentState.reset();
+          }
+        },
+      ),
     );
   }
 
   changeKane(KaneType kaneType) {
     setState(() => _kaneType = kaneType);
   }
-
 }
