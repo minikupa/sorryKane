@@ -130,6 +130,7 @@ class KaneState extends State<Kane> {
               _isPlaying = false;
               first = true;
             });
+            _player.stop();
             key.currentState.reset();
           }
         },
