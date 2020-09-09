@@ -35,6 +35,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
+    String place;
+    switch(_placeType) {
+      case PlaceType.ChromaKey:
+        place = "background";
+        break;
+      case PlaceType.BaseBall:
+        place = "baseball_field";
+        break;
+      default:
+        place = "hall";
+    }
     return Scaffold(
         body: Column(
       children: <Widget>[
@@ -44,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Positioned.fill(
                   child: Image.asset(
-                "assets/background/${_placeType == PlaceType.ChromaKey ? "background" : "baseball_field"}.webp",
+                "assets/background/$place.webp",
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,

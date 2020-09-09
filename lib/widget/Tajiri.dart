@@ -40,7 +40,7 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
             children: <Widget>[
               AnimatedPositioned(
                 duration: Duration(milliseconds: 300),
-                top: 240,
+                top: 265,
                 left: _isTajiriPlay ? 0 : -120,
                 child: RotationTransition(
                   turns:

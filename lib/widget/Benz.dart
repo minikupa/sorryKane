@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class Benz extends StatefulWidget {
   Benz({Key key}) : super(key: key);
@@ -21,10 +22,11 @@ class BenzState extends State<Benz> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return Stack(
       children: <Widget>[
         AnimatedPositioned(
-          left: _isAppear ? -100 : 500,
+          left: _isAppear ? -100 : ScreenUtil().setWidth(1200),
           top: 70,
           duration: Duration(milliseconds:_isAppear ? 5000 : 1),
           child: Column(
