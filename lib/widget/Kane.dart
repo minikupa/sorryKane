@@ -15,9 +15,8 @@ class Kane extends StatefulWidget {
 }
 
 class KaneState extends State<Kane> {
-  int _noseCount = 0;
-  bool _isHover = false;
-  bool _isPlaying = false;
+  int _noseCount = 0, _noseSize = 0;
+  bool _isHover = false, _isPlaying = false;
   KaneType _kaneType = KaneType.Kane;
   List<GlobalKey<ImageSequenceAnimatorState>> animatorKeyList = [
     GlobalKey(),
@@ -63,8 +62,8 @@ class KaneState extends State<Kane> {
         _kaneType == KaneType.Kane && !_isPlaying
             ? Positioned(
                 top: ScreenUtil().setHeight(918),
-                left: ScreenUtil().setWidth(506),
-                right: ScreenUtil().setWidth(506),
+                left: ScreenUtil().setWidth(506 - _noseSize),
+                right: ScreenUtil().setWidth(506 - _noseSize),
                 child: InkWell(
                   child: _isHover
                       ? ColorFiltered(
@@ -72,24 +71,34 @@ class KaneState extends State<Kane> {
                               Colors.grey[400], BlendMode.modulate),
                           child: Image.asset(
                             "assets/kane/kane/nose.webp",
-                            width: ScreenUtil().setHeight(40),
-                            height: ScreenUtil().setHeight(40),
+                            width: ScreenUtil().setHeight(40 + _noseSize),
+                            height: ScreenUtil().setHeight(40 + _noseSize),
                             fit: BoxFit.contain,
                           ))
                       : Image.asset(
                           "assets/kane/kane/nose.webp",
-                          width: ScreenUtil().setHeight(40),
-                          height: ScreenUtil().setHeight(40),
+                          width: ScreenUtil().setHeight(40 + _noseSize),
+                          height: ScreenUtil().setHeight(40 + _noseSize),
                           fit: BoxFit.contain,
                         ),
                   onTap: () {
-                    setState(() => _isHover = false);
-                    if (++_noseCount >= Random().nextInt(5) + 3) {
-                      _noseCount = 0;
-                      _cache.play('music/igonan.m4a');
-                    } else {
-                      _cache.play('music/bbolong.mp3');
+                    _noseSize += 3;
+                    print(_noseSize);
+                    if (_noseSize < 33) {
+                      if (++_noseCount >= Random().nextInt(5) + 3) {
+                        _noseCount = 0;
+                        _cache.play('music/igonan.m4a');
+                      } else {
+                        _cache.play('music/bbolong.mp3');
+                      }
                     }
+                    setState(() {
+                      _isHover = false;
+                      if (_noseSize >= 33) {
+                        _noseSize = 0;
+                        _cache.play('music/pop.mp3');
+                      }
+                    });
                   },
                   onTapDown: (_) => setState(() => _isHover = true),
                   onTapCancel: () => setState(() => _isHover = false),
