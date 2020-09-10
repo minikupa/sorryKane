@@ -23,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey<KaneState> _kaneKey = GlobalKey<KaneState>();
   GlobalKey<TajiriState> _tajiriKey = GlobalKey<TajiriState>();
   GlobalKey<HanwhaState> _hanwhaKey = GlobalKey<HanwhaState>();
   GlobalKey<MushroomState> _mushroomKey = GlobalKey<MushroomState>();
@@ -31,12 +30,13 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<SiteState> _siteKey = GlobalKey<SiteState>();
 
   PlaceType _placeType = PlaceType.ChromaKey;
+  List<KaneType> _kaneList = [KaneType.Kane];
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     String place;
-    switch(_placeType) {
+    switch (_placeType) {
       case PlaceType.ChromaKey:
         place = "background";
         break;
@@ -75,9 +75,15 @@ class _HomePageState extends State<HomePage> {
               Site(
                 key: _siteKey,
               ),
-              Kane(
-                key: _kaneKey,
-              ),
+              Stack(
+                children: List.generate(
+                    _kaneList.length,
+                    (index) => Kane(
+                          kaneType: _kaneList[index],
+                          index: index,
+                          deleteKane: _deleteKane,
+                        )),
+              )
             ],
           ),
         ),
@@ -89,7 +95,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   _changeKane(KaneType kaneType) {
-    _kaneKey.currentState.changeKane(kaneType);
+    setState(() => _kaneList.add(kaneType));
+  }
+
+  _deleteKane(int index) {
+    setState(() => _kaneList.removeAt(index));
   }
 
   _changeBackground(PlaceType placeType) {
