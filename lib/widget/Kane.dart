@@ -14,7 +14,12 @@ class Kane extends StatefulWidget {
   final int index;
   final Function deleteKane;
 
-  Kane({Key key, @required this.kaneType, @required this.index, @required this.deleteKane}) : super(key: key);
+  Kane(
+      {Key key,
+      @required this.kaneType,
+      @required this.index,
+      @required this.deleteKane})
+      : super(key: key);
 
   @override
   KaneState createState() => KaneState();
@@ -65,11 +70,7 @@ class KaneState extends State<Kane> {
 
     return MatrixGestureDetector(
       shouldRotate: false,
-      onMatrixUpdate: (m, tm, sm, rm) {
-        setState(() {
-          _matrix = m;
-        });
-      },
+      onMatrixUpdate: (m, tm, sm, rm) => setState(() => _matrix = m),
       child: Transform(
         transform: _matrix,
         child: Stack(
@@ -95,7 +96,12 @@ class KaneState extends State<Kane> {
                         Icons.delete,
                       ),
                     ),
-                    onTap: () => widget.deleteKane(widget.index),
+                    onTap: () {
+                      if(_player != null) {
+                        _player.stop();
+                      }
+                      widget.deleteKane(widget.index);
+                    },
                   ))
                 : Container(),
             _kaneType == KaneType.Kane && !_isPlaying
@@ -169,39 +175,38 @@ class KaneState extends State<Kane> {
             key.currentState.rewind();
             first = false;
           } else {
-            setState(() {
-              _isPlaying = false;
-              first = true;
-            });
-            key.currentState.reset();
+            if (key.currentState != null) {
+              setState(() {
+                _isPlaying = false;
+                first = true;
+              });
+              key.currentState.reset();
+            }
           }
         },
       ),
       onTap: () async {
         if (!_isPlaying) {
-          setState(() {
-            _isPlaying = true;
-          });
+          setState(() => _isPlaying = true);
           _player = await _cache.play('music/$name.mp3');
           key.currentState.play();
         } else {
           setState(() {
             _isPlaying = false;
             first = true;
+            _player.stop();
+            key.currentState.reset();
           });
-          _player.stop();
-          key.currentState.reset();
         }
       },
       onLongPress: () {
         setState(() => _isHover = true);
-        Future.delayed(
-            Duration(milliseconds: 1500), () {
-              if(mounted) {
-                setState(() => _isHover = false);
-              }
+        Future.delayed(Duration(milliseconds: 1500), () {
+          if (mounted) {
+            setState(() => _isHover = false);
+          }
         });
-      } ,
+      },
     );
   }
 }

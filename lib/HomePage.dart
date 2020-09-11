@@ -78,11 +78,13 @@ class _HomePageState extends State<HomePage> {
               Stack(
                 children: List.generate(
                     _kaneList.length,
-                    (index) => Kane(
-                          kaneType: _kaneList[index],
-                          index: index,
-                          deleteKane: _deleteKane,
-                        )),
+                    (index) => _kaneList[index] != null
+                        ? Kane(
+                            kaneType: _kaneList[index],
+                            index: index,
+                            deleteKane: _deleteKane,
+                          )
+                        : Container()),
               )
             ],
           ),
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _deleteKane(int index) {
-    setState(() => _kaneList.removeAt(index));
+    setState(() => _kaneList[index] = null);
   }
 
   _changeBackground(PlaceType placeType) {
