@@ -97,9 +97,16 @@ class KaneState extends State<Kane> {
                       ),
                     ),
                     onTap: () {
-                      if(_player != null) {
+                      if (_player != null) {
                         _player.stop();
                       }
+                      int random = Random().nextInt(6);
+                      if (random == 0) {
+                        _cache.play('music/dont_run.mp3');
+                      } else if (random == 1) {
+                        _cache.play('music/ac_badman.mp3');
+                      }
+
                       widget.deleteKane(widget.index);
                     },
                   ))
@@ -131,7 +138,8 @@ class KaneState extends State<Kane> {
                         if (_noseSize < 33) {
                           if (++_noseCount >= Random().nextInt(5) + 3) {
                             _noseCount = 0;
-                            _cache.play('music/igonan.m4a');
+                            _cache.play(
+                                'music/igonan${Random().nextInt(4) + 1}.mp3');
                           } else {
                             _cache.play('music/bbolong.mp3');
                           }
