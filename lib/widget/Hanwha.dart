@@ -17,7 +17,6 @@ class HanwhaState extends State<Hanwha> {
 
   @override
   void initState() {
-
     _controller = VideoPlayerController.asset("assets/video/hanwha.mp4")
       ..addListener(() {
         if (_isPlaying && !_controller.value.isPlaying && _isHanwhaPlay) {

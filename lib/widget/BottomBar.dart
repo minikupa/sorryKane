@@ -30,8 +30,10 @@ class _BottomBarState extends State<BottomBar> {
     "kane/sexyKane/sexyKane0",
     "kane/hanwha/hanwha000",
     "kane/moemoe/moemoe135",
+    "kane/bug/bug00",
+    "kane/motorcycle/motorcycle000",
   ];
-  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인", "모에케인"];
+  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인", "모에케인", "바퀴퀴", "오도방구"];
 
   List<String> _deployImgList = [
     "deploy/tajiri",
@@ -67,7 +69,9 @@ class _BottomBarState extends State<BottomBar> {
     KaneType.Ricardo,
     KaneType.SexyKane,
     KaneType.HanwhaKane,
-    KaneType.MoemoeKane
+    KaneType.MoemoeKane,
+    KaneType.Bug,
+    KaneType.Motorcycle
   ];
   List<DeployType> _deployTypeList = [
     DeployType.Tajiri,

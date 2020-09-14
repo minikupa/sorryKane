@@ -3,5 +3,7 @@ enum KaneType {
   Ricardo,
   SexyKane,
   HanwhaKane,
-  MoemoeKane
+  MoemoeKane,
+  Bug,
+  Motorcycle
 }

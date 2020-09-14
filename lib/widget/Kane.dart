@@ -30,13 +30,7 @@ class KaneState extends State<Kane> {
   int _noseCount = 0, _noseSize = 0;
   bool _isHover = false, _isNoseHover = false, _isPlaying = false;
   KaneType _kaneType;
-  List<GlobalKey<ImageSequenceAnimatorState>> animatorKeyList = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey()
-  ];
+  GlobalKey<ImageSequenceAnimatorState> _globalKey = GlobalKey();
 
   AudioCache _cache = AudioCache();
   AudioPlayer _player;
@@ -53,19 +47,26 @@ class KaneState extends State<Kane> {
     Widget kane;
     switch (_kaneType) {
       case KaneType.Kane:
-        kane = _kaneAnimation("kane", 8, 15, animatorKeyList[0], true);
+        kane = _kaneAnimation("kane", 8, 15, true);
         break;
       case KaneType.Ricardo:
-        kane = _kaneAnimation("ricardo", 212, 15, animatorKeyList[1], false);
+        kane = _kaneAnimation("ricardo", 212, 15, false);
         break;
       case KaneType.SexyKane:
-        kane = _kaneAnimation("sexyKane", 9, 15, animatorKeyList[2], true);
+        kane = _kaneAnimation("sexyKane", 9, 15, true);
         break;
       case KaneType.MoemoeKane:
-        kane = _kaneAnimation("moemoe", 137, 24, animatorKeyList[3], false);
+        kane = _kaneAnimation("moemoe", 137, 24, false);
         break;
-      default:
-        kane = _kaneAnimation("hanwha", 203, 24, animatorKeyList[4], false);
+      case KaneType.HanwhaKane:
+        kane = _kaneAnimation("hanwha", 203, 24, false);
+        break;
+      case KaneType.Bug:
+        kane = _kaneAnimation("bug", 64, 24, false);
+        break;
+      case KaneType.Motorcycle:
+        kane = _kaneAnimation("motorcycle", 190, 24, false);
+        break;
     }
 
     return MatrixGestureDetector(
@@ -106,7 +107,6 @@ class KaneState extends State<Kane> {
                       } else if (random == 1) {
                         _cache.play('music/ac_badman.mp3');
                       }
-
                       widget.deleteKane(widget.index);
                     },
                   ))
@@ -163,8 +163,8 @@ class KaneState extends State<Kane> {
     );
   }
 
-  Widget _kaneAnimation(String name, double frameCount, double fps,
-      GlobalKey<ImageSequenceAnimatorState> key, bool rewind) {
+  Widget _kaneAnimation(
+      String name, double frameCount, double fps, bool rewind) {
     bool first = true;
     return InkWell(
       child: ImageSequenceAnimator(
@@ -174,21 +174,21 @@ class KaneState extends State<Kane> {
         frameCount.toString().length - 2,
         "webp",
         frameCount,
-        key: key,
+        key: _globalKey,
         fps: fps,
         isAutoPlay: false,
         color: null,
         onFinishPlaying: (animator) {
           if (rewind && first) {
-            key.currentState.rewind();
+            _globalKey.currentState.rewind();
             first = false;
           } else {
-            if (key.currentState != null) {
+            if (_globalKey.currentState != null) {
               setState(() {
                 _isPlaying = false;
                 first = true;
               });
-              key.currentState.reset();
+              _globalKey.currentState.reset();
             }
           }
         },
@@ -197,13 +197,13 @@ class KaneState extends State<Kane> {
         if (!_isPlaying) {
           setState(() => _isPlaying = true);
           _player = await _cache.play('music/$name.mp3');
-          key.currentState.play();
+          _globalKey.currentState.play();
         } else {
           setState(() {
             _isPlaying = false;
             first = true;
             _player.stop();
-            key.currentState.reset();
+            _globalKey.currentState.reset();
           });
         }
       },
