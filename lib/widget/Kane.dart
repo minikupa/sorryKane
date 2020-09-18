@@ -47,7 +47,7 @@ class KaneState extends State<Kane> {
     Widget kane;
     switch (_kaneType) {
       case KaneType.Kane:
-        kane = _kaneAnimation("kane", 8, 15, true);
+        kane = _kaneAnimation("kane", 8, 19, true);
         break;
       case KaneType.Ricardo:
         kane = _kaneAnimation("ricardo", 212, 15, false);
