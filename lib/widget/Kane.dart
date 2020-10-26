@@ -166,12 +166,13 @@ class KaneState extends State<Kane> {
   Widget _kaneAnimation(
       String name, double frameCount, double fps, bool rewind) {
     bool first = true;
+    print(frameCount.toInt().toString());
     return InkWell(
       child: ImageSequenceAnimator(
         "assets/kane/$name",
         "$name",
         0,
-        frameCount.toString().length - 2,
+        frameCount.toInt().toString().length,
         "webp",
         frameCount,
         key: _globalKey,
@@ -188,7 +189,8 @@ class KaneState extends State<Kane> {
                 _isPlaying = false;
                 first = true;
               });
-              _globalKey.currentState.reset();
+              _globalKey.currentState.restart();
+              _globalKey.currentState.pause();
             }
           }
         },
@@ -203,7 +205,8 @@ class KaneState extends State<Kane> {
             _isPlaying = false;
             first = true;
             _player.stop();
-            _globalKey.currentState.reset();
+            _globalKey.currentState.restart();
+            _globalKey.currentState.pause();
           });
         }
       },

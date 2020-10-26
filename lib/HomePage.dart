@@ -13,10 +13,6 @@ import 'widget/Tajiri.dart';
 import 'widget/Site.dart';
 import 'widget/Kane.dart';
 
-void main() => runApp(MaterialApp(
-      home: HomePage(),
-    ));
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();

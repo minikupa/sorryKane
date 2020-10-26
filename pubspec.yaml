@@ -20,9 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  audioplayers: ^0.16.1
+  audioplayers: ^0.16.2
   flutter_screenutil: ^3.2.0
-  video_player: ^0.10.12+2
+  video_player: ^0.11.1+2
   url_launcher: ^5.7.8
   image_sequence_animator: ^1.0.9
   matrix_gesture_detector: ^0.1.0
