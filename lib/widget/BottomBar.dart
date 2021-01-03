@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:kane/model/KaneType.dart';
 import 'package:kane/model/DeployType.dart';
 import 'package:kane/model/BottomBarType.dart';
@@ -7,10 +8,11 @@ import 'package:kane/model/PlaceType.dart';
 
 class BottomBar extends StatefulWidget {
   final Function changeKane;
+  final Function clearKane;
   final Function changeBackground;
   final Function onOffDeploy;
 
-  BottomBar(this.changeKane, this.changeBackground, this.onOffDeploy);
+  BottomBar(this.changeKane, this.changeBackground, this.onOffDeploy, this.clearKane);
 
   @override
   _BottomBarState createState() => _BottomBarState();
@@ -84,6 +86,8 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+    
     List titleList, imgList;
     switch (_bottomBarType) {
       case BottomBarType.Menu:
@@ -110,35 +114,30 @@ class _BottomBarState extends State<BottomBar> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: <Widget>[
-            _bottomBarType != BottomBarType.Menu
-                ? Container(
-                    width: 60,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: RaisedButton(
-                      child: Text(
-                        "X",
-                        style: TextStyle(fontSize: 10.0),
-                      ),
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      onPressed: () =>
-                          setState(() => _bottomBarType = BottomBarType.Menu),
-                    ))
-                : Container(),
+            Column(
+              children: [
+                _bottomBarType != BottomBarType.Menu
+                    ? _circleButton(Icons.clear, () =>
+                    setState(() => _bottomBarType = BottomBarType.Menu))
+                    : Container(),
+                _bottomBarType == BottomBarType.Person
+                    ? _circleButton(Icons.delete, () => widget.clearKane())
+                    : Container(),
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
             Row(
                 children: List.generate(titleList.length, (index) {
               return InkWell(
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: 70,
-                      width: 70,
+                      height: ScreenUtil().setHeight(200),
+                      width: ScreenUtil().setHeight(200),
                       child: Image.asset(
                         "assets/${imgList[index]}.webp",
-                        height: 70,
-                        width: 70,
+                        height: ScreenUtil().setHeight(200),
+                        width: ScreenUtil().setHeight(200),
                       ),
                       padding:
                           EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
@@ -146,7 +145,7 @@ class _BottomBarState extends State<BottomBar> {
                     Container(
                       child: Text(
                         titleList[index],
-                        style: TextStyle(fontSize: 12.0),
+                        style: TextStyle(fontSize: ScreenUtil().setHeight(31)),
                       ),
                       decoration: BoxDecoration(
                           color: _bottomBarType == BottomBarType.Deploy &&
@@ -188,4 +187,19 @@ class _BottomBarState extends State<BottomBar> {
       ),
     );
   }
+
+  Widget _circleButton(IconData iconData, Function onPressed) => Container(
+      width: ScreenUtil().setHeight(143),
+      height: ScreenUtil().setHeight(105),
+      alignment: Alignment.center,
+      margin: const EdgeInsets.fromLTRB(12, 4, 3, 3),
+      child: IconButton(
+        icon: Icon(iconData, size: ScreenUtil().setHeight(35),),
+        onPressed: onPressed,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(32.0)
+      ));
+
 }

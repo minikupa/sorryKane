@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:video_player/video_player.dart';
 
 class Tajiri extends StatefulWidget {
@@ -35,12 +36,13 @@ class TajiriState extends State<Tajiri> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return _isOn
         ? Stack(
             children: <Widget>[
               AnimatedPositioned(
                 duration: Duration(milliseconds: 300),
-                top: 265,
+                top: ScreenUtil().setHeight(250),
                 left: _isTajiriPlay ? 0 : -120,
                 child: RotationTransition(
                   turns:

@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'model/DeployType.dart';
 import 'model/KaneType.dart';
 import 'model/PlaceType.dart';
 import 'widget/Benz.dart';
-import 'widget/Mushroom.dart';
-import 'model/DeployType.dart';
 import 'widget/BottomBar.dart';
 import 'widget/Hanwha.dart';
-import 'widget/Tajiri.dart';
-import 'widget/Site.dart';
 import 'widget/Kane.dart';
+import 'widget/Mushroom.dart';
+import 'widget/Site.dart';
+import 'widget/Tajiri.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 key: _siteKey,
               ),
               Stack(
-                children: List.generate(
+                children:  List.generate(
                     _kaneList.length,
                     (index) => _kaneList[index] != null
                         ? Kane(
@@ -86,23 +87,20 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(
-          child: BottomBar(_changeKane, _changeBackground, _onOffLocation),
+          child: BottomBar(_changeKane, _changeBackground, _onOffLocation, _clearKane),
         )
       ],
     ));
   }
 
-  _changeKane(KaneType kaneType) {
-    setState(() => _kaneList.add(kaneType));
-  }
+  _changeKane(KaneType kaneType) => setState(() => _kaneList.add(kaneType));
 
-  _deleteKane(int index) {
-    setState(() => _kaneList[index] = null);
-  }
+  _deleteKane(int index) => setState(() => _kaneList[index] = null);
 
-  _changeBackground(PlaceType placeType) {
-    setState(() => _placeType = placeType);
-  }
+  _clearKane() => setState(() => _kaneList = []);
+
+  _changeBackground(PlaceType placeType) =>
+      setState(() => _placeType = placeType);
 
   _onOffLocation(DeployType locationType) {
     switch (locationType) {
@@ -120,7 +118,6 @@ class _HomePageState extends State<HomePage> {
         break;
       case DeployType.Site:
         _siteKey.currentState.onOffLocation();
-        break;
     }
   }
 }

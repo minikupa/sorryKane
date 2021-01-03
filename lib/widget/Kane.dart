@@ -42,6 +42,14 @@ class KaneState extends State<Kane> {
   }
 
   @override
+  void dispose() {
+    if(_player != null) {
+      _player.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     Widget kane;
@@ -67,6 +75,10 @@ class KaneState extends State<Kane> {
       case KaneType.Motorcycle:
         kane = _kaneAnimation("motorcycle", 190, 24, false);
         break;
+    }
+
+    if (_kaneType == KaneType.Kane && Random().nextInt(6) == 0) {
+      kane = _kaneAnimation("kane", 8, 19, true, "no_sorry");
     }
 
     return MatrixGestureDetector(
@@ -135,7 +147,8 @@ class KaneState extends State<Kane> {
                             ),
                       onTap: () {
                         _noseSize += 3;
-                        if (_noseSize < 33) {
+                        bool isMax = Random().nextInt(15) == 0;
+                        if (!isMax) {
                           if (++_noseCount >= Random().nextInt(5) + 3) {
                             _noseCount = 0;
                             _cache.play(
@@ -146,7 +159,7 @@ class KaneState extends State<Kane> {
                         }
                         setState(() {
                           _isNoseHover = false;
-                          if (_noseSize >= 33) {
+                          if (isMax) {
                             _noseSize = 0;
                             _cache.play('music/pop.mp3');
                           }
@@ -163,10 +176,9 @@ class KaneState extends State<Kane> {
     );
   }
 
-  Widget _kaneAnimation(
-      String name, double frameCount, double fps, bool rewind) {
+  Widget _kaneAnimation(String name, double frameCount, double fps, bool rewind,
+      [String mp3Name]) {
     bool first = true;
-    print(frameCount.toInt().toString());
     return InkWell(
       child: ImageSequenceAnimator(
         "assets/kane/$name",
@@ -198,8 +210,22 @@ class KaneState extends State<Kane> {
       onTap: () async {
         if (!_isPlaying) {
           setState(() => _isPlaying = true);
-          _player = await _cache.play('music/$name.mp3');
+          _player = await _cache.play('music/${mp3Name ?? name}.mp3');
           _globalKey.currentState.play();
+          if (mp3Name != null) {
+            for (int i = 0; i < 11; i++) {
+              if (_isPlaying) {
+                await Future.delayed(Duration(milliseconds: 50),
+                    () => _globalKey.currentState.pause());
+                await Future.delayed(Duration(milliseconds: 15),
+                    () => _globalKey.currentState.play());
+              } else {
+                _globalKey.currentState.restart();
+                _globalKey.currentState.pause();
+                break;
+              }
+            }
+          }
         } else {
           setState(() {
             _isPlaying = false;
