@@ -126,8 +126,8 @@ class KaneState extends State<Kane> {
             _kaneType == KaneType.Kane && !_isPlaying
                 ? Positioned(
                     top: ScreenUtil().setHeight(918),
-                    left: ScreenUtil().setWidth(1),
-                    right: ScreenUtil().setWidth(1),
+                    left: ScreenUtil().setWidth(500 - _noseSize),
+                    right: ScreenUtil().setWidth(500 - _noseSize),
                     child: InkWell(
                       child: _isNoseHover
                           ? ColorFiltered(
