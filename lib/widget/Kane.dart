@@ -77,7 +77,7 @@ class KaneState extends State<Kane> {
         break;
     }
 
-    if (_kaneType == KaneType.Kane && Random().nextInt(6) == 0) {
+    if (_kaneType == KaneType.Kane && Random().nextInt(8) == 0) {
       kane = _kaneAnimation("kane", 8, 19, true, "no_sorry");
     }
 
@@ -113,7 +113,7 @@ class KaneState extends State<Kane> {
                       if (_player != null) {
                         _player.stop();
                       }
-                      int random = Random().nextInt(6);
+                      int random = Random().nextInt(8);
                       if (random == 0) {
                         _cache.play('music/dont_run.mp3');
                       } else if (random == 1) {
