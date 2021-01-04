@@ -5,5 +5,6 @@ enum KaneType {
   HanwhaKane,
   MoemoeKane,
   Bug,
-  Motorcycle
+  Motorcycle,
+  Bundle
 }

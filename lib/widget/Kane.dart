@@ -43,7 +43,7 @@ class KaneState extends State<Kane> {
 
   @override
   void dispose() {
-    if(_player != null) {
+    if (_player != null) {
       _player.dispose();
     }
     super.dispose();
@@ -75,6 +75,9 @@ class KaneState extends State<Kane> {
       case KaneType.Motorcycle:
         kane = _kaneAnimation("motorcycle", 190, 24, false);
         break;
+      case KaneType.Bundle:
+        kane = _kaneAnimation("bundle", 37, 24, false);
+        break;
     }
 
     if (_kaneType == KaneType.Kane && Random().nextInt(8) == 0) {
@@ -100,28 +103,26 @@ class KaneState extends State<Kane> {
             _isHover
                 ? Align(
                     child: InkWell(
-                    child: Container(
-                      padding: const EdgeInsets.all(3.0),
-                      margin: const EdgeInsets.only(bottom: 32.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, border: Border.all()),
-                      child: Icon(
-                        Icons.delete,
-                      ),
-                    ),
-                    onTap: () {
-                      if (_player != null) {
-                        _player.stop();
-                      }
-                      int random = Random().nextInt(8);
-                      if (random == 0) {
-                        _cache.play('music/dont_run.mp3');
-                      } else if (random == 1) {
-                        _cache.play('music/ac_badman.mp3');
-                      }
-                      widget.deleteKane(widget.index);
-                    },
-                  ))
+                        child: Container(
+                          padding: const EdgeInsets.all(3.0),
+                          margin: const EdgeInsets.only(bottom: 32.0),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, border: Border.all()),
+                          child: Icon(Icons.delete),
+                        ),
+                        onTap: () {
+                          if (_player != null) {
+                            _player.stop();
+                          }
+                          int random = Random().nextInt(8);
+                          if (random == 0) {
+                            _cache.play('music/dont_run.mp3');
+                          } else if (random == 1) {
+                            _cache.play('music/ac_badman.mp3');
+                          }
+                          widget.deleteKane(widget.index);
+                        }),
+                  )
                 : Container(),
             _kaneType == KaneType.Kane && !_isPlaying
                 ? Positioned(
@@ -147,7 +148,7 @@ class KaneState extends State<Kane> {
                             ),
                       onTap: () {
                         _noseSize += 3;
-                        bool isMax = Random().nextInt(15) == 0;
+                        bool isMax = Random().nextInt(11) == 0;
                         if (!isMax) {
                           if (++_noseCount >= Random().nextInt(5) + 3) {
                             _noseCount = 0;
@@ -191,7 +192,7 @@ class KaneState extends State<Kane> {
         fps: fps,
         isAutoPlay: false,
         color: null,
-        onFinishPlaying: (animator) {
+        onFinishPlaying: (animator) async {
           if (rewind && first) {
             _globalKey.currentState.rewind();
             first = false;
@@ -203,6 +204,7 @@ class KaneState extends State<Kane> {
               });
               _globalKey.currentState.restart();
               _globalKey.currentState.pause();
+              _player.stop();
             }
           }
         },
@@ -220,8 +222,6 @@ class KaneState extends State<Kane> {
                 await Future.delayed(Duration(milliseconds: 15),
                     () => _globalKey.currentState.play());
               } else {
-                _globalKey.currentState.restart();
-                _globalKey.currentState.pause();
                 break;
               }
             }
@@ -230,6 +230,7 @@ class KaneState extends State<Kane> {
           setState(() {
             _isPlaying = false;
             first = true;
+
             _player.stop();
             _globalKey.currentState.restart();
             _globalKey.currentState.pause();

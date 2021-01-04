@@ -20,7 +20,7 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   List<String> _menuImgList = [
-    "kane/kane/kane1",
+    "kane/kane/kane0",
     "deploy/tajiri",
     "background/hanwha"
   ];
@@ -34,8 +34,9 @@ class _BottomBarState extends State<BottomBar> {
     "kane/moemoe/moemoe135",
     "kane/bug/bug00",
     "kane/motorcycle/motorcycle000",
+    "kane/bundle/bundle00",
   ];
-  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인", "모에케인", "바퀴퀴", "오도방구"];
+  List<String> _personTitleList = ["죄송케인", "케카르도", "요염케인", "최강케인", "모에케인", "바퀴퀴", "오도방구", "뭉탱이"];
 
   List<String> _deployImgList = [
     "deploy/tajiri",
@@ -73,7 +74,8 @@ class _BottomBarState extends State<BottomBar> {
     KaneType.HanwhaKane,
     KaneType.MoemoeKane,
     KaneType.Bug,
-    KaneType.Motorcycle
+    KaneType.Motorcycle,
+    KaneType.Bundle
   ];
   List<DeployType> _deployTypeList = [
     DeployType.Tajiri,
@@ -132,12 +134,12 @@ class _BottomBarState extends State<BottomBar> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: ScreenUtil().setHeight(200),
-                      width: ScreenUtil().setHeight(200),
+                      height: ScreenUtil().setHeight(180),
+                      width: ScreenUtil().setHeight(180),
                       child: Image.asset(
                         "assets/${imgList[index]}.webp",
-                        height: ScreenUtil().setHeight(200),
-                        width: ScreenUtil().setHeight(200),
+                        height: ScreenUtil().setHeight(180),
+                        width: ScreenUtil().setHeight(180),
                       ),
                       padding:
                           EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
@@ -145,7 +147,7 @@ class _BottomBarState extends State<BottomBar> {
                     Container(
                       child: Text(
                         titleList[index],
-                        style: TextStyle(fontSize: ScreenUtil().setHeight(31)),
+                        style: TextStyle(fontSize: ScreenUtil().setHeight(29)),
                       ),
                       decoration: BoxDecoration(
                           color: _bottomBarType == BottomBarType.Deploy &&
@@ -189,12 +191,12 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   Widget _circleButton(IconData iconData, Function onPressed) => Container(
-      width: ScreenUtil().setHeight(143),
-      height: ScreenUtil().setHeight(105),
+      width: ScreenUtil().setHeight(139),
+      height: ScreenUtil().setHeight(102),
       alignment: Alignment.center,
       margin: const EdgeInsets.fromLTRB(12, 4, 3, 3),
       child: IconButton(
-        icon: Icon(iconData, size: ScreenUtil().setHeight(35),),
+        icon: Icon(iconData, size: ScreenUtil().setHeight(32),),
         onPressed: onPressed,
       ),
       decoration: BoxDecoration(
