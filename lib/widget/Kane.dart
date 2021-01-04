@@ -204,7 +204,6 @@ class KaneState extends State<Kane> {
               });
               _globalKey.currentState.restart();
               _globalKey.currentState.pause();
-              _player.stop();
             }
           }
         },
