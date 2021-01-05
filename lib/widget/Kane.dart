@@ -25,7 +25,7 @@ class Kane extends StatefulWidget {
   KaneState createState() => KaneState();
 }
 
-class KaneState extends State<Kane> {
+class KaneState extends State<Kane> with WidgetsBindingObserver {
   Matrix4 _matrix = Matrix4.identity();
   int _noseCount = 0, _noseSize = 0;
   bool _isHover = false, _isNoseHover = false, _isPlaying = false;
@@ -38,15 +38,27 @@ class KaneState extends State<Kane> {
   @override
   void initState() {
     _kaneType = widget.kaneType ?? KaneType.Kane;
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   @override
   void dispose() {
-    if (_player != null) {
-      _player.dispose();
-    }
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused && _player != null) {
+      setState(() {
+        _isPlaying = false;
+
+        _player.stop();
+        _globalKey.currentState.restart();
+        _globalKey.currentState.pause();
+      });
+    }
   }
 
   @override
@@ -193,11 +205,11 @@ class KaneState extends State<Kane> {
         isAutoPlay: false,
         color: null,
         onFinishPlaying: (animator) async {
-          if (rewind && first) {
-            _globalKey.currentState.rewind();
-            first = false;
-          } else {
-            if (_globalKey.currentState != null) {
+          if (_globalKey.currentState != null) {
+            if (rewind && first) {
+              _globalKey.currentState.rewind();
+              first = false;
+            } else {
               setState(() {
                 _isPlaying = false;
                 first = true;
