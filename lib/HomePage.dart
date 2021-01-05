@@ -40,6 +40,12 @@ class _HomePageState extends State<HomePage> {
       case PlaceType.BaseBall:
         place = "baseball_field";
         break;
+      case PlaceType.Kof:
+        place = "kof";
+        break;
+      case PlaceType.Wwe:
+        place = "wwe";
+        break;
       default:
         place = "hall";
     }
@@ -73,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                 key: _siteKey,
               ),
               Stack(
-                children:  List.generate(
+                children: List.generate(
                     _kaneList.length,
                     (index) => _kaneList[index] != null
                         ? Kane(
@@ -87,7 +93,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(
-          child: BottomBar(_changeKane, _changeBackground, _onOffLocation, _clearKane),
+          child: BottomBar(
+              _changeKane, _changeBackground, _onOffLocation, _clearKane),
         )
       ],
     ));

@@ -57,9 +57,11 @@ class _BottomBarState extends State<BottomBar> {
   List<String> _placeImgList = [
     "background/background",
     "background/hanwha",
-    "background/hall"
+    "background/hall",
+    "background/kof",
+    "background/wwe"
   ];
-  List<String> _placeTitleList = ["크로마키", "야구장", "노인회관"];
+  List<String> _placeTitleList = ["크로마키", "야구장", "노인회관", "킹오파", "WWE"];
 
   BottomBarType _bottomBarType = BottomBarType.Menu;
   List<BottomBarType> _bottomTypeList = [
@@ -84,7 +86,7 @@ class _BottomBarState extends State<BottomBar> {
     DeployType.Benz,
     DeployType.Site
   ];
-  List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall, PlaceType.Hall];
+  List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall, PlaceType.Hall, PlaceType.Kof,  PlaceType.Wwe];
 
   @override
   Widget build(BuildContext context) {
