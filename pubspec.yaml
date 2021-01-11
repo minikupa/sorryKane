@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  audioplayers: 0.17.0
+  audioplayers: 0.16.2
   flutter_screenutil: ^3.2.0
   video_player: ^1.0.1
   url_launcher: ^5.7.10
