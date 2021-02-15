@@ -75,7 +75,7 @@ class _PickPageState extends State<PickPage> {
                 onTap: () async {
                   if (!_isPlaying && isNumeric(_textEditingController.text)) {
                     _randomNumber = Random().nextInt(
-                            int.parse(_textEditingController.text) - 1) +
+                            int.parse(_textEditingController.text)) +
                         1;
                     _isPlaying = true;
                     _player = await _cache.play('music/pick_sexy.mp3');
