@@ -5,6 +5,7 @@ import 'package:kane/model/KaneType.dart';
 import 'package:kane/model/DeployType.dart';
 import 'package:kane/model/BottomBarType.dart';
 import 'package:kane/model/PlaceType.dart';
+import 'package:kane/pages/PickPage.dart';
 
 class BottomBar extends StatefulWidget {
   final Function changeKane;
@@ -19,12 +20,14 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
+
   List<String> _menuImgList = [
     "kane/kane/kane0",
     "deploy/tajiri",
+    "background/hanwha",
     "background/hanwha"
   ];
-  List<String> _menuTitleList = ["인물", "배치", "장소"];
+  List<String> _menuTitleList = ["인물", "배치", "장소", "뽑기"];
 
   List<String> _personImgList = [
     "kane/kane/kane0",
@@ -164,24 +167,31 @@ class _BottomBarState extends State<BottomBar> {
                   mainAxisSize: MainAxisSize.min,
                 ),
                 onTap: () {
-                  switch (_bottomBarType) {
-                    case BottomBarType.Menu:
-                      setState(() => _bottomBarType = _bottomTypeList[index]);
-                      break;
-                    case BottomBarType.Person:
-                      widget.changeKane(_kaneTypeList[index]);
-                      setState(() => _bottomBarType = BottomBarType.Menu);
-                      break;
-                    case BottomBarType.Deploy:
-                      widget.onOffDeploy(_deployTypeList[index]);
-                      setState(() {
-                        _deployBoolList[index] = !_deployBoolList[index];
-                        _bottomBarType = BottomBarType.Menu;
-                      });
-                      break;
-                    default:
-                      widget.changeBackground(_placeTypeList[index]);
-                      setState(() => _bottomBarType = BottomBarType.Menu);
+                  if(_bottomBarType == BottomBarType.Menu && index == 3) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PickPage()),
+                    );
+                  } else {
+                    switch (_bottomBarType) {
+                      case BottomBarType.Menu:
+                        setState(() => _bottomBarType = _bottomTypeList[index]);
+                        break;
+                      case BottomBarType.Person:
+                        widget.changeKane(_kaneTypeList[index]);
+                        setState(() => _bottomBarType = BottomBarType.Menu);
+                        break;
+                      case BottomBarType.Deploy:
+                        widget.onOffDeploy(_deployTypeList[index]);
+                        setState(() {
+                          _deployBoolList[index] = !_deployBoolList[index];
+                          _bottomBarType = BottomBarType.Menu;
+                        });
+                        break;
+                      default:
+                        widget.changeBackground(_placeTypeList[index]);
+                        setState(() => _bottomBarType = BottomBarType.Menu);
+                    }
                   }
                 },
               );

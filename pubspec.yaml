@@ -58,6 +58,8 @@ flutter:
     - assets/deploy/
     - assets/music/
     - assets/video/
+    - assets/pick/
+    - assets/pick/sexy/
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

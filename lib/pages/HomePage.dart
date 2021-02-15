@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'model/DeployType.dart';
-import 'model/KaneType.dart';
-import 'model/PlaceType.dart';
-import 'widget/Benz.dart';
-import 'widget/BottomBar.dart';
-import 'widget/Hanwha.dart';
-import 'widget/Kane.dart';
-import 'widget/Mushroom.dart';
-import 'widget/Site.dart';
-import 'widget/Tajiri.dart';
+import '../model/DeployType.dart';
+import '../model/KaneType.dart';
+import '../model/PlaceType.dart';
+import '../widget/Benz.dart';
+import '../widget/BottomBar.dart';
+import '../widget/Hanwha.dart';
+import '../widget/Kane.dart';
+import '../widget/Mushroom.dart';
+import '../widget/Site.dart';
+import '../widget/Tajiri.dart';
 
 class HomePage extends StatefulWidget {
   @override
