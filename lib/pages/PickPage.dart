@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:image_sequence_animator/image_sequence_animator.dart';
 
 class PickPage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _PickPageState extends State<PickPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -41,31 +43,34 @@ class _PickPageState extends State<PickPage> {
             )),
             Center(
               child: InkWell(
-                child: ImageSequenceAnimator(
-                  "assets/pick/sexy",
-                  "pick_sexy",
-                  0,
-                  2,
-                  "webp",
-                  29,
-                  key: _globalKey,
-                  fps: 24,
-                  isAutoPlay: false,
-                  color: null,
-                  onPlaying: (imageSequenceAnimator) {
-                    if (imageSequenceAnimator.currentTime >= 200 &&
-                        _size == 0.0) {
-                      setState(() {
-                        _size = 200;
-                      });
-                    }
-                  },
-                  onFinishPlaying: (animator) async {
-                    if (_globalKey.currentState != null) {
-                      _globalKey.currentState.restart();
-                      _globalKey.currentState.pause();
-                    }
-                  },
+                child: Container(
+                  height: ScreenUtil().setHeight(800),
+                  child: ImageSequenceAnimator(
+                    "assets/pick/sexy",
+                    "pick_sexy",
+                    0,
+                    2,
+                    "webp",
+                    29,
+                    key: _globalKey,
+                    fps: 24,
+                    isAutoPlay: false,
+                    color: null,
+                    onPlaying: (imageSequenceAnimator) {
+                      if (imageSequenceAnimator.currentTime >= 200 &&
+                          _size == 0.0) {
+                        setState(() {
+                          _size = 200;
+                        });
+                      }
+                    },
+                    onFinishPlaying: (animator) async {
+                      if (_globalKey.currentState != null) {
+                        _globalKey.currentState.restart();
+                        _globalKey.currentState.pause();
+                      }
+                    },
+                  ),
                 ),
                 onTap: () async {
                   if (!_isPlaying && isNumeric(_textEditingController.text)) {
