@@ -24,7 +24,7 @@ dependencies:
   flutter_screenutil: ^3.2.0
   video_player: ^1.0.1
   url_launcher: ^5.7.10
-  ㅍ: ^1.0.10
+  image_sequence_animator: ^1.0.10
   matrix_gesture_detector: ^0.1.0
 
 dev_dependencies:

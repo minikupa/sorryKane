@@ -25,7 +25,7 @@ class _BottomBarState extends State<BottomBar> {
     "kane/kane/kane0",
     "deploy/tajiri",
     "background/hanwha",
-    "background/hanwha"
+    "pick/pick"
   ];
   List<String> _menuTitleList = ["인물", "배치", "장소", "뽑기"];
 

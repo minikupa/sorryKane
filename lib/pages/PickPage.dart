@@ -74,7 +74,9 @@ class _PickPageState extends State<PickPage> {
                 ),
                 onTap: () async {
                   if (!_isPlaying && isNumeric(_textEditingController.text)) {
-                    _randomNumber = Random().nextInt(int.parse(_textEditingController.text) - 1) + 1;
+                    _randomNumber = Random().nextInt(
+                            int.parse(_textEditingController.text) - 1) +
+                        1;
                     _isPlaying = true;
                     _player = await _cache.play('music/pick_sexy.mp3');
                     _globalKey.currentState.play();
@@ -94,7 +96,7 @@ class _PickPageState extends State<PickPage> {
                   duration: Duration(milliseconds: 400),
                   child: Stack(
                     children: [
-                      Image.asset("assets/pick/sphere.png"),
+                      Image.asset("assets/pick/sphere.webp"),
                       Text(
                         "${_randomNumber ?? ""}",
                         style: TextStyle(
@@ -133,6 +135,15 @@ class _PickPageState extends State<PickPage> {
                       fillColor: Colors.grey[200],
                       filled: true,
                       hintText: "최대 숫자를 입력하라 맨이야"),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
             )
