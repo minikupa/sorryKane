@@ -26,7 +26,7 @@ class SiteState extends State<Site> {
                           "assets/deploy/tgd.webp",
                           width: 20,
                         ),
-                        onTap: () => _launchURL("https://tgd.kr/kanetv8")),
+                        onTap: () =>  _launchURL("https://tgd.kr/kanetv8")),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: InkWell(

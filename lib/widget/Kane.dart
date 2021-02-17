@@ -45,6 +45,9 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    if (_player != null) {
+      _player.stop();
+    }
     super.dispose();
   }
 
@@ -123,9 +126,6 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                           child: Icon(Icons.delete),
                         ),
                         onTap: () {
-                          if (_player != null) {
-                            _player.stop();
-                          }
                           int random = Random().nextInt(8);
                           if (random == 0) {
                             _cache.play('music/dont_run.mp3');

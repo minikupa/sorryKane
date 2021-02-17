@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,7 +18,6 @@ class _PickPageState extends State<PickPage> {
   bool _isPlaying = false;
 
   AudioCache _cache = AudioCache();
-  AudioPlayer _player;
 
   TextEditingController _textEditingController = TextEditingController();
 
@@ -57,11 +55,9 @@ class _PickPageState extends State<PickPage> {
                     isAutoPlay: false,
                     color: null,
                     onPlaying: (imageSequenceAnimator) {
-                      if (imageSequenceAnimator.currentTime >= 200 &&
+                      if (imageSequenceAnimator.currentTime >= 250 &&
                           _size == 0.0) {
-                        setState(() {
-                          _size = 200;
-                        });
+                        setState(() => _size = 200);
                       }
                     },
                     onFinishPlaying: (animator) async {
@@ -74,11 +70,11 @@ class _PickPageState extends State<PickPage> {
                 ),
                 onTap: () async {
                   if (!_isPlaying && isNumeric(_textEditingController.text)) {
-                    _randomNumber = Random().nextInt(
-                            int.parse(_textEditingController.text)) +
+                    _randomNumber = Random()
+                            .nextInt(int.parse(_textEditingController.text)) +
                         1;
                     _isPlaying = true;
-                    _player = await _cache.play('music/pick_sexy.mp3');
+                    _cache.play('music/pick_sexy.mp3');
                     _globalKey.currentState.play();
                   }
                 },
@@ -96,7 +92,7 @@ class _PickPageState extends State<PickPage> {
                   duration: Duration(milliseconds: 400),
                   child: Stack(
                     children: [
-                      Image.asset("assets/pick/sphere.webp"),
+                      Image.asset("assets/pick/baseball.webp"),
                       Text(
                         "${_randomNumber ?? ""}",
                         style: TextStyle(
@@ -113,11 +109,8 @@ class _PickPageState extends State<PickPage> {
                       _randomNumber = null;
                     });
                   } else {
-                    Future.delayed(Duration(seconds: 3), () {
-                      setState(() {
-                        _size = 0.0;
-                      });
-                    });
+                    Future.delayed(Duration(seconds: 3),
+                        () => setState(() => _size = 0.0));
                   }
                 },
               ),
