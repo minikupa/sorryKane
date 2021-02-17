@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:kane/model/KaneType.dart';
-import 'package:kane/model/DeployType.dart';
 import 'package:kane/model/BottomBarType.dart';
+import 'package:kane/model/DeployType.dart';
+import 'package:kane/model/KaneType.dart';
 import 'package:kane/model/PlaceType.dart';
 import 'package:kane/pages/PickPage.dart';
 
@@ -62,9 +62,10 @@ class _BottomBarState extends State<BottomBar> {
     "background/hanwha",
     "background/hall",
     "background/kof",
-    "background/wwe"
+    "background/wwe",
+    "background/booth"
   ];
-  List<String> _placeTitleList = ["크로마키", "야구장", "노인회관", "킹오파", "WWE"];
+  List<String> _placeTitleList = ["크로마키", "야구장", "노인회관", "킹오파", "WWE", "방음부스"];
 
   BottomBarType _bottomBarType = BottomBarType.Menu;
   List<BottomBarType> _bottomTypeList = [
@@ -89,7 +90,7 @@ class _BottomBarState extends State<BottomBar> {
     DeployType.Benz,
     DeployType.Site
   ];
-  List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall, PlaceType.Hall, PlaceType.Kof,  PlaceType.Wwe];
+  List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall, PlaceType.Hall, PlaceType.Kof,  PlaceType.Wwe,  PlaceType.Booth];
 
   @override
   Widget build(BuildContext context) {

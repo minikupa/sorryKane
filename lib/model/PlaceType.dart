@@ -3,5 +3,6 @@ enum PlaceType {
   BaseBall,
   Hall,
   Kof,
-  Wwe
+  Wwe,
+  Booth
 }

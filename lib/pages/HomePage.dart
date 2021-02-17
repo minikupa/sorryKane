@@ -60,6 +60,9 @@ class _HomePageState extends State<HomePage>{
       case PlaceType.Wwe:
         place = "wwe";
         break;
+      case PlaceType.Booth:
+        place = "booth";
+        break;
       default:
         place = "hall";
     }
