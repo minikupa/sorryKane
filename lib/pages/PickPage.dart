@@ -21,7 +21,7 @@ class _PickPageState extends State<PickPage> {
 
   TextEditingController _textEditingController = TextEditingController();
 
-  double _size = 0;
+  double _size = 0, _opacity = 0;
   int _randomNumber;
 
   @override
@@ -58,6 +58,8 @@ class _PickPageState extends State<PickPage> {
                       if (imageSequenceAnimator.currentTime >= 190 &&
                           _size == 0.0) {
                         setState(() => _size = 200);
+                        Future.delayed(const Duration(milliseconds: 300),
+                            () => setState(() => _opacity = 1));
                       }
                     },
                     onFinishPlaying: (animator) async {
@@ -83,26 +85,33 @@ class _PickPageState extends State<PickPage> {
             Align(
               alignment: const Alignment(0.0, -0.05),
               child: InkWell(
-                onTap: () => setState(() => _size = 0.0),
+                onTap: () => setState(() {
+                  _size = 0;
+                  _opacity = 0;
+                }),
                 child: AnimatedContainer(
                   width: _size,
                   height: _size,
                   curve: Curves.easeInCubic,
                   duration: const Duration(milliseconds: 500),
-                  child: AnimatedOpacity(
-                    opacity: _size == 0.0 ? 0.0 : 1.0,
-                    duration: const Duration(milliseconds: 400),
-                    child: Stack(
-                      children: [
-                        Image.asset("assets/pick/baseball.webp"),
-                        Text(
+                  child: Stack(
+                    children: [
+                      AnimatedOpacity(
+                        opacity: _size == 0.0 ? 0.0 : 1.0,
+                        duration: const Duration(milliseconds: 400),
+                        child: Image.asset("assets/pick/baseball.webp"),
+                      ),
+                      AnimatedOpacity(
+                        opacity: _opacity,
+                        duration: const Duration(milliseconds: 400),
+                        child: Text(
                           "${_randomNumber ?? ""}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 35.0),
-                        )
-                      ],
-                      alignment: Alignment.center,
-                    ),
+                        ),
+                      ),
+                    ],
+                    alignment: Alignment.center,
                   ),
                   onEnd: () {
                     if (_size == 0.0) {
@@ -110,9 +119,12 @@ class _PickPageState extends State<PickPage> {
                         _isPlaying = false;
                         _randomNumber = null;
                       });
-                    } else if(_size == 200.0){
+                    } else if (_size == 200.0) {
                       Future.delayed(const Duration(seconds: 3),
-                          () => setState(() => _size = 0.0));
+                          () => setState(() {
+                            _size = 0;
+                            _opacity = 0;
+                          }));
                     }
                   },
                 ),
