@@ -138,7 +138,7 @@ class _PickSexyState extends State<PickSexy> {
               color: null,
               onPlaying: (imageSequenceAnimator) {
                 if (imageSequenceAnimator.currentTime >= 190 && _size == 0.0) {
-                  setState(() => _size = 200);
+                  setState(() => _size = ScreenUtil().setHeight(500));
                   Future.delayed(const Duration(milliseconds: 300),
                       () => setState(() => _opacity = 1));
                 }
@@ -200,7 +200,7 @@ class _PickSexyState extends State<PickSexy> {
                     _isPlaying = false;
                     _randomNumber = null;
                   });
-                } else if (_size == 200.0) {
+                } else if (_size == ScreenUtil().setHeight(500)) {
                   Future.delayed(
                       const Duration(seconds: 3),
                       () => setState(() {
@@ -231,7 +231,7 @@ class PickCannon extends StatefulWidget {
 }
 
 class _PickCannonState extends State<PickCannon> {
-  double _size = 120.0, _position = 270.0, _opacity = 0;
+  double _size = 120.0, _position = ScreenUtil().setHeight(600), _opacity = 0;
   int _randomNumber;
   bool _isNoseHover = false, _isPlaying = false;
   AudioCache _cache = AudioCache();
@@ -268,14 +268,14 @@ class _PickCannonState extends State<PickCannon> {
                 if (_size == 40) {
                   setState(() {
                     _size = 250;
-                    _position = 500;
+                    _position = ScreenUtil().setHeight(1100);
                   });
                 } else {
                   Future.delayed(
                       const Duration(seconds: 2),
                       () => setState(() {
                             _size = 120;
-                            _position = 270;
+                            _position = ScreenUtil().setHeight(600);
                             _opacity = 0;
                             _isPlaying = false;
                             _isNoseHover = false;
@@ -294,7 +294,7 @@ class _PickCannonState extends State<PickCannon> {
                 height: ScreenUtil().setHeight(400),
               ),
               InkWell(
-                child: _isNoseHover
+                child: _isPlaying || _isNoseHover
                     ? ColorFiltered(
                         colorFilter: ColorFilter.mode(
                             Colors.grey[400], BlendMode.modulate),
@@ -315,7 +315,7 @@ class _PickCannonState extends State<PickCannon> {
                         () => setState(() => _opacity = 1));
                     setState(() {
                       _size = 40;
-                      _position = 700;
+                      _position = ScreenUtil().setHeight(1500);
                     });
                   } else {
                     setState(() => _isNoseHover = false);
