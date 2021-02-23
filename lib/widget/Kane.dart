@@ -146,18 +146,8 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                           ? ColorFiltered(
                               colorFilter: ColorFilter.mode(
                                   Colors.grey[400], BlendMode.modulate),
-                              child: Image.asset(
-                                "assets/kane/kane/nose.webp",
-                                width: ScreenUtil().setHeight(40 + _noseSize),
-                                height: ScreenUtil().setHeight(40 + _noseSize),
-                                fit: BoxFit.contain,
-                              ))
-                          : Image.asset(
-                              "assets/kane/kane/nose.webp",
-                              width: ScreenUtil().setHeight(40 + _noseSize),
-                              height: ScreenUtil().setHeight(40 + _noseSize),
-                              fit: BoxFit.contain,
-                            ),
+                              child: _nose())
+                          : _nose(),
                       onTap: () {
                         _noseSize += 3;
                         bool isMax = Random().nextInt(11) == 0;
@@ -188,6 +178,13 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
       ),
     );
   }
+
+  Widget _nose() => Image.asset(
+        "assets/kane/kane/nose.webp",
+        width: ScreenUtil().setHeight(40 + _noseSize),
+        height: ScreenUtil().setHeight(40 + _noseSize),
+        fit: BoxFit.contain,
+      );
 
   Widget _kaneAnimation(String name, double frameCount, double fps, bool rewind,
       [String mp3Name]) {
