@@ -118,86 +118,92 @@ class _BottomBarState extends State<BottomBar> {
       width: double.infinity,
       alignment: Alignment.center,
       color: Colors.grey[400],
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: <Widget>[
-            Column(
-              children: [
-                _bottomBarType != BottomBarType.Menu
-                    ? _circleButton(Icons.clear, () =>
-                    setState(() => _bottomBarType = BottomBarType.Menu))
-                    : Container(),
-                _bottomBarType == BottomBarType.Person
-                    ? _circleButton(Icons.delete, () => widget.clearKane())
-                    : Container(),
-              ],
-              mainAxisSize: MainAxisSize.min,
-            ),
-            Row(
-                children: List.generate(titleList.length, (index) {
-              return InkWell(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: ScreenUtil().setHeight(180),
-                      width: ScreenUtil().setHeight(180),
-                      child: Image.asset(
-                        "assets/${imgList[index]}.webp",
+      child: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowGlow();
+          return;
+        },
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              Column(
+                children: [
+                  _bottomBarType != BottomBarType.Menu
+                      ? _circleButton(Icons.clear, () =>
+                      setState(() => _bottomBarType = BottomBarType.Menu))
+                      : Container(),
+                  _bottomBarType == BottomBarType.Person
+                      ? _circleButton(Icons.delete, () => widget.clearKane())
+                      : Container(),
+                ],
+                mainAxisSize: MainAxisSize.min,
+              ),
+              Row(
+                  children: List.generate(titleList.length, (index) {
+                return InkWell(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
                         height: ScreenUtil().setHeight(180),
                         width: ScreenUtil().setHeight(180),
+                        child: Image.asset(
+                          "assets/${imgList[index]}.webp",
+                          height: ScreenUtil().setHeight(180),
+                          width: ScreenUtil().setHeight(180),
+                        ),
+                        padding:
+                            EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
                       ),
-                      padding:
-                          EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
-                    ),
-                    Container(
-                      child: Text(
-                        titleList[index],
-                        style: TextStyle(fontSize: ScreenUtil().setHeight(29)),
-                      ),
-                      decoration: BoxDecoration(
-                          color: _bottomBarType == BottomBarType.Deploy &&
-                                  _deployBoolList[index]
-                              ? Colors.green[100]
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(16.0)),
-                      padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    )
-                  ],
-                  mainAxisSize: MainAxisSize.min,
-                ),
-                onTap: () {
-                  if(_bottomBarType == BottomBarType.Menu && index == 3) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PickPage()),
-                    );
-                  } else {
-                    switch (_bottomBarType) {
-                      case BottomBarType.Menu:
-                        setState(() => _bottomBarType = _bottomTypeList[index]);
-                        break;
-                      case BottomBarType.Person:
-                        widget.changeKane(_kaneTypeList[index]);
-                        setState(() => _bottomBarType = BottomBarType.Menu);
-                        break;
-                      case BottomBarType.Deploy:
-                        widget.onOffDeploy(_deployTypeList[index]);
-                        setState(() {
-                          _deployBoolList[index] = !_deployBoolList[index];
-                          _bottomBarType = BottomBarType.Menu;
-                        });
-                        break;
-                      default:
-                        widget.changeBackground(_placeTypeList[index]);
-                        setState(() => _bottomBarType = BottomBarType.Menu);
+                      Container(
+                        child: Text(
+                          titleList[index],
+                          style: TextStyle(fontSize: ScreenUtil().setHeight(29)),
+                        ),
+                        decoration: BoxDecoration(
+                            color: _bottomBarType == BottomBarType.Deploy &&
+                                    _deployBoolList[index]
+                                ? Colors.green[100]
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16.0)),
+                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      )
+                    ],
+                    mainAxisSize: MainAxisSize.min,
+                  ),
+                  onTap: () {
+                    if(_bottomBarType == BottomBarType.Menu && index == 3) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PickPage()),
+                      );
+                    } else {
+                      switch (_bottomBarType) {
+                        case BottomBarType.Menu:
+                          setState(() => _bottomBarType = _bottomTypeList[index]);
+                          break;
+                        case BottomBarType.Person:
+                          widget.changeKane(_kaneTypeList[index]);
+                          setState(() => _bottomBarType = BottomBarType.Menu);
+                          break;
+                        case BottomBarType.Deploy:
+                          widget.onOffDeploy(_deployTypeList[index]);
+                          setState(() {
+                            _deployBoolList[index] = !_deployBoolList[index];
+                            _bottomBarType = BottomBarType.Menu;
+                          });
+                          break;
+                        default:
+                          widget.changeBackground(_placeTypeList[index]);
+                          setState(() => _bottomBarType = BottomBarType.Menu);
+                      }
                     }
-                  }
-                },
-              );
-            })),
-          ],
+                  },
+                );
+              })),
+            ],
+          ),
         ),
       ),
     );

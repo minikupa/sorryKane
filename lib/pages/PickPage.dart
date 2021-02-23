@@ -82,37 +82,40 @@ class _PickPageState extends State<PickPage> {
             ),
             Align(
               alignment: const Alignment(0.0, -0.05),
-              child: AnimatedContainer(
-                width: _size,
-                height: _size,
-                curve: Curves.easeInCubic,
-                duration: const Duration(milliseconds: 500),
-                child: AnimatedOpacity(
-                  opacity: _size == 0.0 ? 0.0 : 1.0,
-                  duration: const Duration(milliseconds: 400),
-                  child: Stack(
-                    children: [
-                      Image.asset("assets/pick/baseball.webp"),
-                      Text(
-                        "${_randomNumber ?? ""}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 35.0),
-                      )
-                    ],
-                    alignment: Alignment.center,
+              child: InkWell(
+                onTap: () => setState(() => _size = 0.0),
+                child: AnimatedContainer(
+                  width: _size,
+                  height: _size,
+                  curve: Curves.easeInCubic,
+                  duration: const Duration(milliseconds: 500),
+                  child: AnimatedOpacity(
+                    opacity: _size == 0.0 ? 0.0 : 1.0,
+                    duration: const Duration(milliseconds: 400),
+                    child: Stack(
+                      children: [
+                        Image.asset("assets/pick/baseball.webp"),
+                        Text(
+                          "${_randomNumber ?? ""}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 35.0),
+                        )
+                      ],
+                      alignment: Alignment.center,
+                    ),
                   ),
+                  onEnd: () {
+                    if (_size == 0.0) {
+                      setState(() {
+                        _isPlaying = false;
+                        _randomNumber = null;
+                      });
+                    } else if(_size == 200.0){
+                      Future.delayed(const Duration(seconds: 3),
+                          () => setState(() => _size = 0.0));
+                    }
+                  },
                 ),
-                onEnd: () {
-                  if (_size == 0.0) {
-                    setState(() {
-                      _isPlaying = false;
-                      _randomNumber = null;
-                    });
-                  } else {
-                    Future.delayed(const Duration(seconds: 3),
-                        () => setState(() => _size = 0.0));
-                  }
-                },
               ),
             ),
             Center(

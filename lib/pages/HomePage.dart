@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,7 +22,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _HomePageState extends State<HomePage> {
   GlobalKey<TajiriState> _tajiriKey = GlobalKey<TajiriState>();
   GlobalKey<HanwhaState> _hanwhaKey = GlobalKey<HanwhaState>();
   GlobalKey<MushroomState> _mushroomKey = GlobalKey<MushroomState>();
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage>{
 
   @override
   void initState() {
-    if(Random().nextInt(5) == 0) {
+    if (Random().nextInt(5) == 0) {
       _cache.play('music/opening.mp3');
     }
     super.initState();
