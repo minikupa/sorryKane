@@ -79,13 +79,13 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
         kane = _kaneAnimation("sexyKane", 9, 15, true);
         break;
       case KaneType.MoemoeKane:
-        kane = _kaneAnimation("moemoe", 137, 24, false);
+        kane = _kaneAnimation("moemoe", 84, 15, false);
         break;
       case KaneType.HanwhaKane:
-        kane = _kaneAnimation("hanwha", 203, 24, false);
+        kane = _kaneAnimation("hanwha", 115, 15, false);
         break;
       case KaneType.Bug:
-        kane = _kaneAnimation("bug", 64, 24, false);
+        kane = _kaneAnimation("bug", 55, 15, false);
         break;
       case KaneType.Motorcycle:
         kane = _kaneAnimation("motorcycle", 190, 24, false);

@@ -49,13 +49,13 @@ class _PickPageState extends State<PickPage> {
                     0,
                     2,
                     "webp",
-                    29,
+                    11,
                     key: _globalKey,
-                    fps: 24,
+                    fps: 15,
                     isAutoPlay: false,
                     color: null,
                     onPlaying: (imageSequenceAnimator) {
-                      if (imageSequenceAnimator.currentTime >= 250 &&
+                      if (imageSequenceAnimator.currentTime >= 190 &&
                           _size == 0.0) {
                         setState(() => _size = 200);
                       }
@@ -81,21 +81,21 @@ class _PickPageState extends State<PickPage> {
               ),
             ),
             Align(
-              alignment: Alignment(0.0, -0.05),
+              alignment: const Alignment(0.0, -0.05),
               child: AnimatedContainer(
                 width: _size,
                 height: _size,
                 curve: Curves.easeInCubic,
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 child: AnimatedOpacity(
                   opacity: _size == 0.0 ? 0.0 : 1.0,
-                  duration: Duration(milliseconds: 400),
+                  duration: const Duration(milliseconds: 400),
                   child: Stack(
                     children: [
                       Image.asset("assets/pick/baseball.webp"),
                       Text(
                         "${_randomNumber ?? ""}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 35.0),
                       )
                     ],
@@ -109,7 +109,7 @@ class _PickPageState extends State<PickPage> {
                       _randomNumber = null;
                     });
                   } else {
-                    Future.delayed(Duration(seconds: 3),
+                    Future.delayed(const Duration(seconds: 3),
                         () => setState(() => _size = 0.0));
                   }
                 },
@@ -118,7 +118,7 @@ class _PickPageState extends State<PickPage> {
             Center(
               child: Container(
                 width: 300,
-                alignment: Alignment(0.0, 0.6),
+                alignment: const Alignment(0.0, 0.6),
                 child: TextField(
                   controller: _textEditingController,
                   keyboardType: TextInputType.number,
@@ -135,7 +135,7 @@ class _PickPageState extends State<PickPage> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),

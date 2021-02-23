@@ -34,7 +34,7 @@ class _BottomBarState extends State<BottomBar> {
     "kane/ricardo/ricardo",
     "kane/sexyKane/sexyKane0",
     "kane/hanwha/hanwha000",
-    "kane/moemoe/moemoe135",
+    "kane/moemoe/moemoe00",
     "kane/bug/bug00",
     "kane/motorcycle/motorcycle000",
     "kane/bundle/bundle00",
