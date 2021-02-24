@@ -110,8 +110,53 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
               alignment: Alignment.bottomCenter,
               child: InkWell(
                 child: Container(
+                  width: ScreenUtil().setHeight(350),
                   height: ScreenUtil().setHeight(800),
-                  child: kane,
+                  child: Stack(
+                    children: [
+                      kane,
+                      _kaneType == KaneType.Kane && !_isPlaying
+                          ? Align(
+                              alignment: Alignment(0.0, -0.6),
+                              child: InkWell(
+                                child: _isNoseHover
+                                    ? ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                            Colors.grey[400],
+                                            BlendMode.modulate),
+                                        child: _nose())
+                                    : _nose(),
+                                onTap: () {
+                                  _noseSize += 3;
+                                  bool isMax = Random().nextInt(11) == 0;
+                                  if (!isMax) {
+                                    if (++_noseCount >=
+                                        Random().nextInt(5) + 3) {
+                                      _noseCount = 0;
+                                      _cache.play(
+                                          'music/igonan${Random().nextInt(4) + 1}.mp3');
+                                    } else {
+                                      _cache.play('music/bbolong.mp3');
+                                    }
+                                  }
+                                  setState(() {
+                                    _isNoseHover = false;
+                                    if (isMax) {
+                                      _noseSize = 0;
+                                      _cache.play('music/pop.mp3');
+                                    }
+                                  });
+                                },
+                                onTapDown: (_) =>
+                                    setState(() => _isNoseHover = true),
+                                onTapCancel: () =>
+                                    setState(() => _isNoseHover = false),
+                              ),
+                            )
+                          : Container()
+                    ],
+                    alignment: Alignment.center,
+                  ),
                 ),
               ),
             ),
@@ -136,43 +181,6 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                         }),
                   )
                 : Container(),
-            _kaneType == KaneType.Kane && !_isPlaying
-                ? Positioned(
-                    top: ScreenUtil().setHeight(918),
-                    left: ScreenUtil().setWidth(500 - _noseSize),
-                    right: ScreenUtil().setWidth(500 - _noseSize),
-                    child: InkWell(
-                      child: _isNoseHover
-                          ? ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                  Colors.grey[400], BlendMode.modulate),
-                              child: _nose())
-                          : _nose(),
-                      onTap: () {
-                        _noseSize += 3;
-                        bool isMax = Random().nextInt(11) == 0;
-                        if (!isMax) {
-                          if (++_noseCount >= Random().nextInt(5) + 3) {
-                            _noseCount = 0;
-                            _cache.play(
-                                'music/igonan${Random().nextInt(4) + 1}.mp3');
-                          } else {
-                            _cache.play('music/bbolong.mp3');
-                          }
-                        }
-                        setState(() {
-                          _isNoseHover = false;
-                          if (isMax) {
-                            _noseSize = 0;
-                            _cache.play('music/pop.mp3');
-                          }
-                        });
-                      },
-                      onTapDown: (_) => setState(() => _isNoseHover = true),
-                      onTapCancel: () => setState(() => _isNoseHover = false),
-                    ),
-                  )
-                : Container()
           ],
         ),
       ),
@@ -189,70 +197,73 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
   Widget _kaneAnimation(String name, double frameCount, double fps, bool rewind,
       [String mp3Name]) {
     bool first = true;
-    return InkWell(
-      child: ImageSequenceAnimator(
-        "assets/kane/$name",
-        "$name",
-        0,
-        frameCount.toInt().toString().length,
-        "webp",
-        frameCount,
-        key: _globalKey,
-        fps: fps,
-        isAutoPlay: false,
-        color: null,
-        onFinishPlaying: (animator) async {
-          if (_globalKey.currentState != null) {
-            if (rewind && first) {
-              _globalKey.currentState.rewind();
-              first = false;
-            } else {
-              setState(() {
-                _isPlaying = false;
-                first = true;
-              });
-              _globalKey.currentState.restart();
-              _globalKey.currentState.pause();
-            }
-          }
-        },
-      ),
-      onTap: () async {
-        if (!_isPlaying) {
-          setState(() => _isPlaying = true);
-          _player = await _cache.play('music/${mp3Name ?? name}.mp3');
-          _globalKey.currentState.play();
-          if (mp3Name != null) {
-            for (int i = 0; i < 11; i++) {
-              if (_isPlaying) {
-                await Future.delayed(Duration(milliseconds: 50),
-                    () => _globalKey.currentState.pause());
-                await Future.delayed(Duration(milliseconds: 15),
-                    () => _globalKey.currentState.play());
+    return Container(
+      height: ScreenUtil().setHeight(700),
+      child: InkWell(
+        child: ImageSequenceAnimator(
+          "assets/kane/$name",
+          "$name",
+          0,
+          frameCount.toInt().toString().length,
+          "webp",
+          frameCount,
+          key: _globalKey,
+          fps: fps,
+          isAutoPlay: false,
+          color: null,
+          onFinishPlaying: (animator) async {
+            if (_globalKey.currentState != null) {
+              if (rewind && first) {
+                _globalKey.currentState.rewind();
+                first = false;
               } else {
-                break;
+                setState(() {
+                  _isPlaying = false;
+                  first = true;
+                });
+                _globalKey.currentState.restart();
+                _globalKey.currentState.pause();
               }
             }
-          }
-        } else {
-          setState(() {
-            _isPlaying = false;
-            first = true;
+          },
+        ),
+        onTap: () async {
+          if (!_isPlaying) {
+            setState(() => _isPlaying = true);
+            _player = await _cache.play('music/${mp3Name ?? name}.mp3');
+            _globalKey.currentState.play();
+            if (mp3Name != null) {
+              for (int i = 0; i < 11; i++) {
+                if (_isPlaying) {
+                  await Future.delayed(Duration(milliseconds: 50),
+                      () => _globalKey.currentState.pause());
+                  await Future.delayed(Duration(milliseconds: 15),
+                      () => _globalKey.currentState.play());
+                } else {
+                  break;
+                }
+              }
+            }
+          } else {
+            setState(() {
+              _isPlaying = false;
+              first = true;
 
-            _player.stop();
-            _globalKey.currentState.restart();
-            _globalKey.currentState.pause();
-          });
-        }
-      },
-      onLongPress: () {
-        setState(() => _isHover = true);
-        Future.delayed(Duration(milliseconds: 1500), () {
-          if (mounted) {
-            setState(() => _isHover = false);
+              _player.stop();
+              _globalKey.currentState.restart();
+              _globalKey.currentState.pause();
+            });
           }
-        });
-      },
+        },
+        onLongPress: () {
+          setState(() => _isHover = true);
+          Future.delayed(Duration(milliseconds: 1500), () {
+            if (mounted) {
+              setState(() => _isHover = false);
+            }
+          });
+        },
+      ),
     );
   }
 }

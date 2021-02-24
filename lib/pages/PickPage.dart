@@ -231,7 +231,7 @@ class PickCannon extends StatefulWidget {
 }
 
 class _PickCannonState extends State<PickCannon> {
-  double _size = 120.0, _position = ScreenUtil().setHeight(600), _opacity = 0;
+  double _size = ScreenUtil().setHeight(250), _position = ScreenUtil().setHeight(600), _opacity = 0;
   int _randomNumber;
   bool _isNoseHover = false, _isPlaying = false;
   AudioCache _cache = AudioCache();
@@ -265,7 +265,7 @@ class _PickCannonState extends State<PickCannon> {
             ),
             onEnd: () {
               if (_isPlaying) {
-                if (_size == 40) {
+                if (_size == ScreenUtil().setHeight(70)) {
                   setState(() {
                     _size = 250;
                     _position = ScreenUtil().setHeight(1100);
@@ -274,7 +274,7 @@ class _PickCannonState extends State<PickCannon> {
                   Future.delayed(
                       const Duration(seconds: 2),
                       () => setState(() {
-                            _size = 120;
+                            _size = ScreenUtil().setHeight(250);
                             _position = ScreenUtil().setHeight(600);
                             _opacity = 0;
                             _isPlaying = false;
@@ -314,7 +314,7 @@ class _PickCannonState extends State<PickCannon> {
                                 widget.textEditingController.text.length * 170),
                         () => setState(() => _opacity = 1));
                     setState(() {
-                      _size = 40;
+                      _size = ScreenUtil().setHeight(70);
                       _position = ScreenUtil().setHeight(1500);
                     });
                   } else {
