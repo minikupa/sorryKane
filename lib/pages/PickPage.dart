@@ -139,8 +139,11 @@ class _PickSexyState extends State<PickSexy> {
               onPlaying: (imageSequenceAnimator) {
                 if (imageSequenceAnimator.currentTime >= 190 && _size == 0.0) {
                   setState(() => _size = ScreenUtil().setHeight(500));
-                  Future.delayed(const Duration(milliseconds: 300),
-                      () => setState(() => _opacity = 1));
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    if (mounted) {
+                      setState(() => _opacity = 1);
+                    }
+                  });
                 }
               },
               onFinishPlaying: (animator) async {
@@ -201,12 +204,14 @@ class _PickSexyState extends State<PickSexy> {
                     _randomNumber = null;
                   });
                 } else if (_size == ScreenUtil().setHeight(500)) {
-                  Future.delayed(
-                      const Duration(seconds: 3),
-                      () => setState(() {
-                            _size = 0;
-                            _opacity = 0;
-                          }));
+                  Future.delayed(const Duration(seconds: 3), () {
+                    if (mounted) {
+                      setState(() {
+                        _size = 0;
+                        _opacity = 0;
+                      });
+                    }
+                  });
                 }
               },
             ),
@@ -231,7 +236,9 @@ class PickCannon extends StatefulWidget {
 }
 
 class _PickCannonState extends State<PickCannon> {
-  double _size = ScreenUtil().setHeight(250), _position = ScreenUtil().setHeight(600), _opacity = 0;
+  double _size = ScreenUtil().setHeight(250),
+      _position = ScreenUtil().setHeight(600),
+      _opacity = 0;
   int _randomNumber;
   bool _isNoseHover = false, _isPlaying = false;
   AudioCache _cache = AudioCache();
@@ -271,15 +278,17 @@ class _PickCannonState extends State<PickCannon> {
                     _position = ScreenUtil().setHeight(1100);
                   });
                 } else {
-                  Future.delayed(
-                      const Duration(seconds: 2),
-                      () => setState(() {
-                            _size = ScreenUtil().setHeight(250);
-                            _position = ScreenUtil().setHeight(600);
-                            _opacity = 0;
-                            _isPlaying = false;
-                            _isNoseHover = false;
-                          }));
+                  Future.delayed(const Duration(seconds: 2), () {
+                    if (mounted) {
+                      setState(() {
+                        _size = ScreenUtil().setHeight(250);
+                        _position = ScreenUtil().setHeight(600);
+                        _opacity = 0;
+                        _isPlaying = false;
+                        _isNoseHover = false;
+                      });
+                    }
+                  });
                 }
               }
             },

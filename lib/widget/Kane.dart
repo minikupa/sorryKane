@@ -108,79 +108,75 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
           children: <Widget>[
             Align(
               alignment: Alignment.bottomCenter,
-              child: InkWell(
-                child: Container(
-                  width: ScreenUtil().setHeight(350),
-                  height: ScreenUtil().setHeight(800),
-                  child: Stack(
-                    children: [
-                      kane,
-                      _kaneType == KaneType.Kane && !_isPlaying
-                          ? Align(
-                              alignment: Alignment(0.0, -0.6),
-                              child: InkWell(
-                                child: _isNoseHover
-                                    ? ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                            Colors.grey[400],
-                                            BlendMode.modulate),
-                                        child: _nose())
-                                    : _nose(),
-                                onTap: () {
-                                  _noseSize += 3;
-                                  bool isMax = Random().nextInt(11) == 0;
-                                  if (!isMax) {
-                                    if (++_noseCount >=
-                                        Random().nextInt(5) + 3) {
-                                      _noseCount = 0;
-                                      _cache.play(
-                                          'music/igonan${Random().nextInt(4) + 1}.mp3');
-                                    } else {
-                                      _cache.play('music/bbolong.mp3');
-                                    }
+              child: Container(
+                height: ScreenUtil().setHeight(700),
+                child: Stack(
+                  children: [
+                    kane,
+                    _kaneType == KaneType.Kane && !_isPlaying
+                        ? Align(
+                            alignment: Alignment(0.0, -0.69),
+                            child: InkWell(
+                              child: _isNoseHover
+                                  ? ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                          Colors.grey[400], BlendMode.modulate),
+                                      child: _nose())
+                                  : _nose(),
+                              onTap: () {
+                                _noseSize += 3;
+                                bool isMax = Random().nextInt(11) == 0;
+                                if (!isMax) {
+                                  if (++_noseCount >= Random().nextInt(5) + 3) {
+                                    _noseCount = 0;
+                                    _cache.play(
+                                        'music/igonan${Random().nextInt(4) + 1}.mp3');
+                                  } else {
+                                    _cache.play('music/bbolong.mp3');
                                   }
-                                  setState(() {
-                                    _isNoseHover = false;
-                                    if (isMax) {
-                                      _noseSize = 0;
-                                      _cache.play('music/pop.mp3');
-                                    }
-                                  });
-                                },
-                                onTapDown: (_) =>
-                                    setState(() => _isNoseHover = true),
-                                onTapCancel: () =>
-                                    setState(() => _isNoseHover = false),
-                              ),
-                            )
-                          : Container()
-                    ],
-                    alignment: Alignment.center,
-                  ),
+                                }
+                                setState(() {
+                                  _isNoseHover = false;
+                                  if (isMax) {
+                                    _noseSize = 0;
+                                    _cache.play('music/pop.mp3');
+                                  }
+                                });
+                              },
+                              onTapDown: (_) =>
+                                  setState(() => _isNoseHover = true),
+                              onTapCancel: () =>
+                                  setState(() => _isNoseHover = false),
+                            ),
+                          )
+                        : Container(),
+                    _isHover
+                        ? Align(
+                            alignment: Alignment(0.0, -1.3),
+                            child: InkWell(
+                                child: Container(
+                                  padding: const EdgeInsets.all(3.0),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all()),
+                                  child: Icon(Icons.delete),
+                                ),
+                                onTap: () {
+                                  int random = Random().nextInt(8);
+                                  if (random == 0) {
+                                    _cache.play('music/dont_run.mp3');
+                                  } else if (random == 1) {
+                                    _cache.play('music/ac_badman.mp3');
+                                  }
+                                  widget.deleteKane(widget.index);
+                                }),
+                          )
+                        : Container(),
+                  ],
+                  alignment: Alignment.center,
                 ),
               ),
             ),
-            _isHover
-                ? Align(
-                    child: InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.all(3.0),
-                          margin: const EdgeInsets.only(bottom: 32.0),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, border: Border.all()),
-                          child: Icon(Icons.delete),
-                        ),
-                        onTap: () {
-                          int random = Random().nextInt(8);
-                          if (random == 0) {
-                            _cache.play('music/dont_run.mp3');
-                          } else if (random == 1) {
-                            _cache.play('music/ac_badman.mp3');
-                          }
-                          widget.deleteKane(widget.index);
-                        }),
-                  )
-                : Container(),
           ],
         ),
       ),
