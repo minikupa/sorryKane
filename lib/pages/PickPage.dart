@@ -161,7 +161,7 @@ class _PickSexyState extends State<PickSexy> {
                       .nextInt(int.parse(widget.textEditingController.text)) +
                   1;
               _isPlaying = true;
-              _cache.play('music/pick_sexy.mp3');
+              _cache.play('music/pick/spit.mp3', volume: 0.7);
               _globalKey.currentState.play();
             }
           },
@@ -312,19 +312,26 @@ class _PickCannonState extends State<PickCannon> {
                 onTap: () {
                   if (!_isPlaying &&
                       widget.isNumeric(widget.textEditingController.text)) {
-                    _cache.play('music/bbolong.mp3');
+                    _cache.play('music/pick/bbolong2.mp3', volume: 0.7);
                     _isPlaying = true;
                     _randomNumber = Random().nextInt(
                             int.parse(widget.textEditingController.text)) +
                         1;
-                    Future.delayed(
-                        Duration(
-                            milliseconds:
-                                widget.textEditingController.text.length * 170),
-                        () => setState(() => _opacity = 1));
+
                     setState(() {
                       _size = ScreenUtil().setHeight(70);
                       _position = ScreenUtil().setHeight(1500);
+                    });
+
+                    Future.delayed(
+                        Duration(
+                            milliseconds:
+                                widget.textEditingController.text.length * 190),
+                        () => setState(() => _opacity = 1));
+                    Future.delayed(Duration(milliseconds: 750), () {
+                      List effectSound = ["heuhehe", "nice", "reul", "see", "hanna", "ja"];
+                      _cache.play(
+                          'music/${effectSound[Random().nextInt(effectSound.length)]}.mp3', volume: 0.7);
                     });
                   } else {
                     setState(() => _isNoseHover = false);

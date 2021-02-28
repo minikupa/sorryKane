@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     if (Random().nextInt(5) == 0) {
-      _cache.play('music/opening.mp3');
+      _cache.play('music/opening.mp3', volume: 0.7);
     }
     super.initState();
   }
@@ -116,9 +116,17 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  _changeKane(KaneType kaneType) => setState(() => _kaneList.add(kaneType));
+  _changeKane(KaneType kaneType) {
+    if(Random().nextBool()) {
+      List effectSound = ["heuhehe", "nice", "reul", "see", "hanna", "ja"];
+      _cache.play(
+          'music/${effectSound[Random().nextInt(effectSound.length)]}.mp3',
+          volume: 0.5);
+    }
+    setState(() => _kaneList.add(kaneType));
+  }
 
-  _deleteKane(int index) => setState(() => _kaneList[index] = null);
+  _deleteKane(int index) => setState(() => _kaneList.removeAt(index));
 
   _clearKane() => setState(() => _kaneList = []);
 

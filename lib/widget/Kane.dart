@@ -130,16 +130,16 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                                   if (++_noseCount >= Random().nextInt(5) + 3) {
                                     _noseCount = 0;
                                     _cache.play(
-                                        'music/igonan${Random().nextInt(4) + 1}.mp3');
+                                        'music/kane/igonan${Random().nextInt(4) + 1}.mp3', volume: 0.7);
                                   } else {
-                                    _cache.play('music/bbolong.mp3');
+                                    _cache.play('music/kane/bbolong.mp3', volume: 0.7);
                                   }
                                 }
                                 setState(() {
                                   _isNoseHover = false;
                                   if (isMax) {
                                     _noseSize = 0;
-                                    _cache.play('music/pop.mp3');
+                                    _cache.play('music/kane/pop.mp3', volume: 0.7);
                                   }
                                 });
                               },
@@ -152,7 +152,7 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                         : Container(),
                     _isHover
                         ? Align(
-                            alignment: Alignment(0.0, -1.3),
+                            alignment: Alignment(0.2, -1.0),
                             child: InkWell(
                                 child: Container(
                                   padding: const EdgeInsets.all(3.0),
@@ -164,9 +164,9 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
                                 onTap: () {
                                   int random = Random().nextInt(8);
                                   if (random == 0) {
-                                    _cache.play('music/dont_run.mp3');
+                                    _cache.play('music/kane/dont_run.mp3', volume: 0.7);
                                   } else if (random == 1) {
-                                    _cache.play('music/ac_badman.mp3');
+                                    _cache.play('music/kane/ac_badman.mp3', volume: 0.7);
                                   }
                                   widget.deleteKane(widget.index);
                                 }),
@@ -226,7 +226,7 @@ class KaneState extends State<Kane> with WidgetsBindingObserver {
         onTap: () async {
           if (!_isPlaying) {
             setState(() => _isPlaying = true);
-            _player = await _cache.play('music/${mp3Name ?? name}.mp3');
+            _player = await _cache.play('music/kane/${mp3Name ?? name}.mp3', volume: 0.7);
             _globalKey.currentState.play();
             if (mp3Name != null) {
               for (int i = 0; i < 11; i++) {
