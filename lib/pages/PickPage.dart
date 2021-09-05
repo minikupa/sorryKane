@@ -92,7 +92,7 @@ class _PickPageState extends State<PickPage> {
     if (s == null) {
       return false;
     }
-    return double.parse(s, (e) => null) != null;
+    return double.parse(s) != null;
   }
 }
 
