@@ -46,15 +46,13 @@ class _BottomBarState extends State<BottomBar> {
     "deploy/kimsungkeun",
     "deploy/mushroom",
     "deploy/benz",
-    "deploy/tgd"
   ];
-  List<String> _deployTitleList = ["타지리", "감동님", "버섯섯", "구형벤츠", "사이트"];
+  List<String> _deployTitleList = ["타지리", "감동님", "버섯섯", "구형벤츠"];
   List<bool> _deployBoolList = [
     true,
     true,
     true,
-    true,
-    true,
+    true
   ];
 
   List<String> _placeImgList = [
@@ -87,8 +85,7 @@ class _BottomBarState extends State<BottomBar> {
     DeployType.Tajiri,
     DeployType.Kimsungkeun,
     DeployType.Mushroom,
-    DeployType.Benz,
-    DeployType.Site
+    DeployType.Benz
   ];
   List<PlaceType> _placeTypeList = [PlaceType.ChromaKey, PlaceType.BaseBall, PlaceType.Hall, PlaceType.Kof,  PlaceType.Wwe,  PlaceType.Booth];
 
@@ -152,8 +149,6 @@ class _BottomBarState extends State<BottomBar> {
                           height: ScreenUtil().setHeight(180),
                           width: ScreenUtil().setHeight(180),
                         ),
-                        padding:
-                            EdgeInsets.all(titleList[index] == "사이트" ? 16 : 0),
                       ),
                       Container(
                         child: Text(

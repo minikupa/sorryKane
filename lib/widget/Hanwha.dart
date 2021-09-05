@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kane/widget/DeployAbstract.dart';
 import 'package:video_player/video_player.dart';
 
 class Hanwha extends StatefulWidget {
@@ -8,10 +9,8 @@ class Hanwha extends StatefulWidget {
   HanwhaState createState() => HanwhaState();
 }
 
-class HanwhaState extends State<Hanwha> {
-  bool _isHanwhaPlay = false;
-  bool _isPlaying = false;
-  bool _isOn = true;
+class HanwhaState extends State<Hanwha> implements DeployAbstract {
+  bool isOn = true;
 
   VideoPlayerController _controller;
 
@@ -19,57 +18,49 @@ class HanwhaState extends State<Hanwha> {
   void initState() {
     _controller = VideoPlayerController.asset("assets/video/hanwha.mp4")
       ..addListener(() {
-        if (_isPlaying && !_controller.value.isPlaying && _isHanwhaPlay) {
-          setState(() => _isHanwhaPlay = false);
+        if (_controller.value.position == _controller.value.duration) {
+          _stopVideo();
         }
-        _isPlaying = _controller.value.isPlaying;
       });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _isOn
+    return isOn
         ? Stack(
             children: <Widget>[
-              AnimatedPositioned(
-                right: 0,
-                top: _isHanwhaPlay ? 100 : 100.1,
-                duration: Duration(milliseconds: 10),
+              Align(
+                alignment: Alignment(1.0, -0.7),
                 child: InkWell(
                   child: Image.asset(
                     "assets/deploy/kimsungkeun.webp",
                     width: 80,
                   ),
-                  onTap: () {
-                    if (!_isHanwhaPlay) {
-                      _controller
-                          .initialize()
-                          .then((_) => _controller.play());
-                      setState(() => _isHanwhaPlay = true);
+                  onTap: () async {
+                    if (!_controller.value.isPlaying) {
+                      _controller.initialize().then((_) {
+                        setState(() {
+                          _controller.play();
+                        });
+                      });
                     } else {
-                      _controller.pause();
+                      _stopVideo();
                     }
                   },
                 ),
-                onEnd: () {
-                  if (!_isHanwhaPlay && _controller.value.isPlaying) {
-                    _controller.pause();
-                  }
-                },
               ),
-              Align(
-                alignment: Alignment(0.5, -0.6),
-                child: _isHanwhaPlay
-                    ? Container(
+              _controller.value.isPlaying
+                  ? Align(
+                      alignment: Alignment(0.5, -0.6),
+                      child: Container(
                         height: 100,
                         child: AspectRatio(
-                          aspectRatio: 16 / 9,
+                          aspectRatio: _controller.value.aspectRatio,
                           child: VideoPlayer(_controller),
                         ),
-                      )
-                    : Container(),
-              )
+                      ))
+                  : Container(),
             ],
           )
         : Container();
@@ -77,8 +68,16 @@ class HanwhaState extends State<Hanwha> {
 
   onOffLocation() {
     setState(() {
-      _isOn = !_isOn;
-      if (!_isOn) {
+      isOn = !isOn;
+      if (!isOn) {
+        _stopVideo();
+      }
+    });
+  }
+
+  _stopVideo() {
+    setState(() {
+      if(_controller.value.isPlaying) {
         _controller.pause();
       }
     });

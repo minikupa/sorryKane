@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:kane/widget/DeployAbstract.dart';
 
 class Benz extends StatefulWidget {
   Benz({Key key}) : super(key: key);
@@ -10,8 +11,8 @@ class Benz extends StatefulWidget {
   BenzState createState() => BenzState();
 }
 
-class BenzState extends State<Benz> {
-  bool _isOn = true;
+class BenzState extends State<Benz> implements DeployAbstract{
+  bool isOn = true;
   bool _isAppear = false;
 
   @override
@@ -48,7 +49,7 @@ class BenzState extends State<Benz> {
 
   _randomAppear() async {
     while (true) {
-      if(_isOn) {
+      if(isOn) {
         await Future.delayed(Duration(seconds: Random().nextInt(30) + 10),
                 () => setState(() => _isAppear = true));
       }
@@ -57,8 +58,8 @@ class BenzState extends State<Benz> {
 
   onOffLocation() {
     setState(() {
-      _isOn = !_isOn;
-      _isAppear = _isOn;
+      isOn = !isOn;
+      _isAppear = isOn;
     });
   }
 }

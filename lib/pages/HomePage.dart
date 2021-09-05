@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +14,7 @@ import '../widget/BottomBar.dart';
 import '../widget/Hanwha.dart';
 import '../widget/Kane.dart';
 import '../widget/Mushroom.dart';
-import '../widget/Site.dart';
+import '../widget/Facilities.dart';
 import '../widget/Tajiri.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,16 +27,15 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<HanwhaState> _hanwhaKey = GlobalKey<HanwhaState>();
   GlobalKey<MushroomState> _mushroomKey = GlobalKey<MushroomState>();
   GlobalKey<BenzState> _benzKey = GlobalKey<BenzState>();
-  GlobalKey<SiteState> _siteKey = GlobalKey<SiteState>();
 
   AudioCache _cache = AudioCache();
 
-  PlaceType _placeType = PlaceType.ChromaKey;
+  String _place = "background";
   List<KaneType> _kaneList = [KaneType.Kane];
 
   @override
   void initState() {
-    if (Random().nextInt(5) == 0) {
+    if (Random().nextInt(3) == 0) {
       _cache.play('music/opening.mp3', volume: 0.7);
     }
     super.initState();
@@ -45,26 +44,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-    String place;
-    switch (_placeType) {
-      case PlaceType.ChromaKey:
-        place = "background";
-        break;
-      case PlaceType.BaseBall:
-        place = "baseball_field";
-        break;
-      case PlaceType.Kof:
-        place = "kof";
-        break;
-      case PlaceType.Wwe:
-        place = "wwe";
-        break;
-      case PlaceType.Booth:
-        place = "booth";
-        break;
-      default:
-        place = "hall";
-    }
     return Scaffold(
         body: Column(
       children: <Widget>[
@@ -74,7 +53,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Positioned.fill(
                   child: Image.asset(
-                "assets/background/$place.webp",
+                "assets/background/$_place.webp",
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,
@@ -91,9 +70,7 @@ class _HomePageState extends State<HomePage> {
               Benz(
                 key: _benzKey,
               ),
-              Site(
-                key: _siteKey,
-              ),
+              Facilities(),
               Stack(
                 children: List.generate(
                     _kaneList.length,
@@ -110,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         ),
         Expanded(
           child: BottomBar(
-              _changeKane, _changeBackground, _onOffLocation, _clearKane),
+              _changeKane, _changeBackground, _onOffDeploy, _clearKane),
         )
       ],
     ));
@@ -130,11 +107,32 @@ class _HomePageState extends State<HomePage> {
 
   _clearKane() => setState(() => _kaneList = []);
 
-  _changeBackground(PlaceType placeType) =>
-      setState(() => _placeType = placeType);
+  _changeBackground(PlaceType placeType) {
+    setState(() {
+      switch (placeType) {
+        case PlaceType.ChromaKey:
+          _place = "background";
+          break;
+        case PlaceType.BaseBall:
+          _place = "baseball_field";
+          break;
+        case PlaceType.Kof:
+          _place = "kof";
+          break;
+        case PlaceType.Wwe:
+          _place = "wwe";
+          break;
+        case PlaceType.Booth:
+          _place = "booth";
+          break;
+        default:
+          _place = "hall";
+      }
+    });
+  }
 
-  _onOffLocation(DeployType locationType) {
-    switch (locationType) {
+  _onOffDeploy(DeployType deployType) {
+    switch (deployType) {
       case DeployType.Tajiri:
         _tajiriKey.currentState.onOffLocation();
         break;
@@ -147,8 +145,6 @@ class _HomePageState extends State<HomePage> {
       case DeployType.Benz:
         _benzKey.currentState.onOffLocation();
         break;
-      case DeployType.Site:
-        _siteKey.currentState.onOffLocation();
     }
   }
 }

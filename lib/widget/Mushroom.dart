@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:kane/widget/DeployAbstract.dart';
 
-class Mushroom extends StatefulWidget {
+class Mushroom extends StatefulWidget{
   Mushroom({Key key}) : super(key: key);
 
   @override
   MushroomState createState() => MushroomState();
 }
 
-class MushroomState extends State<Mushroom> {
-  bool _isOn = true;
+class MushroomState extends State<Mushroom>  implements DeployAbstract {
+  bool isOn = true;
 
   @override
   Widget build(BuildContext context) {
-    return _isOn
+    return isOn
         ? Stack(
             children: <Widget>[
               Align(
@@ -29,6 +30,8 @@ class MushroomState extends State<Mushroom> {
   }
 
   onOffLocation() {
-    setState(() => _isOn = !_isOn);
+    setState(() {
+      isOn = !isOn;
+    });
   }
 }
